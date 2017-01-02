@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExcel 1.8
+ * PHPExcel 1.8.
  */
 class PluginExcelPhp_excel_v18{
   /**

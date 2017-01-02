@@ -1,0 +1,3 @@
+file: /plugin/excel/php_excel_v18/demo.ods
+sheet: demo
+range: 'A1:C5'

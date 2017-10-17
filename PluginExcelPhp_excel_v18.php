@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExcel 1.8
+ * PHPExcel 1.8.
  */
 class PluginExcelPhp_excel_v18{
   /**
@@ -29,21 +29,31 @@ class PluginExcelPhp_excel_v18{
    sheet: demo
    range: 'A1:C5'
   #code#
-   <p>Optional first row can be used as keys.</p>
+  <p>Optional first row can be used as keys.</p>
   #code-yml#
    first_row_as_key: true
   #code#
-   <p>Returning an array.</p>
+  <p>Optional key_id if first_row_as_key is set.</p>
+  #code-yml#
+   key_id: (An existing key)
+  #code#
+  <p>Returning an array.</p>
    */
   public function getRange($data){
     wfPlugin::includeonce('wf/array');
     $data = new PluginWfArray($data);
     $objPHPExcel = new PHPExcel();
-    $dataFfile = wfArray::get($GLOBALS, 'sys/app_dir').$data->get('file');
+    $dataFfile = wfArray::get($GLOBALS, 'sys/app_dir'). wfSettings::replaceDir($data->get('file'));
     $objPHPExcel = PHPExcel_IOFactory::load($dataFfile);
     $objPHPExcel->setActiveSheetIndexByName($data->get('sheet'));
     $active_sheet = $objPHPExcel->getActiveSheet();
     $range = $active_sheet->rangeToArray($data->get('range'));
+    
+    $key_id = null;
+    if($data->get('key_id')){
+      $key_id = $data->get('key_id');
+    }
+    
     if(!$data->get('first_row_as_key')){
       return $range;
     }else{
@@ -59,7 +69,11 @@ class PluginExcelPhp_excel_v18{
           foreach ($value as $key2 => $value2) {
             $temp[$as_key[$key2]] = $value2;
           }
-          $array[] = $temp;
+          if(is_null($key_id)){
+            $array[] = $temp;
+          }else{
+            $array[$temp[$key_id]] = $temp;
+          }
         }
       }
       return $array;

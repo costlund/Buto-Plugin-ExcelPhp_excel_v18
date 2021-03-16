@@ -1,7 +1,16 @@
-version: '1.0'
+version: 1.2.0
 history:
-  '1.0':
+  1.2.0:
+    date: '2021-03-16'
+    title: Create file
+    description: 'Methods to download or save file.'
+  1.1.0:
+    date: '2021-03-16'
+    title: Readme
+    description: 'Create readme file.'
+  1.0.0:
     date: '2019-01-09'
+    title: First version
     description: 'First version.'
 plugin:
   -

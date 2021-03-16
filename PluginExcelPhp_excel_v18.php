@@ -1,19 +1,11 @@
 <?php
-/**
- * PHPExcel 1.8.
- */
 class PluginExcelPhp_excel_v18{
-  /**
-   * Including PHPExcel 1.8 library.
-   */
   function __construct($buto = false) {
     if($buto){
       include_once __DIR__.'/PHPExcel-1.8/Classes/PHPExcel.php';
     }
+    include_once __DIR__.'/PHPExcel-1.8/Classes/PHPExcel.php';
   }
-  /**
-   * Widget to show how to open file, select a sheet, and get a range of data.
-   */
   public function widget_demo($data){
     wfPlugin::includeonce('wf/array');
     $data = new PluginWfArray($data);
@@ -21,24 +13,6 @@ class PluginExcelPhp_excel_v18{
     $xls_data = $this->getRange($data->get('data'));
     wfHelp::yml_dump($xls_data);
   }
-  /**
-   <p>Array with data.</p>
-   <p>Example:</p>
-  #code-yml#
-   file: /plugin/excel/php_excel_v18/demo.ods
-   sheet: demo
-   range: 'A1:C5'
-  #code#
-  <p>Optional first row can be used as keys.</p>
-  #code-yml#
-   first_row_as_key: true
-  #code#
-  <p>Optional key_id if first_row_as_key is set.</p>
-  #code-yml#
-   key_id: (An existing key)
-  #code#
-  <p>Returning an array.</p>
-   */
   public function getRange($data){
     wfPlugin::includeonce('wf/array');
     $data = new PluginWfArray($data);
@@ -77,9 +51,6 @@ class PluginExcelPhp_excel_v18{
       return $array;
     }
   }
-  /**
-   <p>Method to create file from column data.</p>
-   */
   public function columnToFile($file = '/plugin/excel/php_excel_v18/demo.ods', $sheet = 'yml', $column = 'A', $range_from = 1, $range_to = 5, $to_file = "/theme/[theme]/column_to_file.yml", $yml_validator = true ){
     $range = $this->getRange(array('file' => $file, 'sheet' => $sheet, 'range' => "$column$range_from:$column$range_to" ));
     $str = null;
@@ -106,5 +77,84 @@ class PluginExcelPhp_excel_v18{
     }else{
       return array('success' => false, 'description' => 'to_file is not set!', 'str' => $str);
     }
+  }
+  private function get_obj_from_data($rs){
+    $objPHPExcel = new PHPExcel();
+    $objPHPExcel->setActiveSheetIndex(0);
+    $has_data = false;
+    if(sizeof($rs)){
+      $has_data = true;
+    }
+    /**
+     * 
+     */
+    if($has_data){
+      /**
+       * 
+       */
+      $rowCount = 1;
+      /**
+       * First row.
+       */
+      $column = 0;
+      foreach($rs[0] as $k => $v){
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($column, $rowCount, $k);
+        $column++;
+      }
+      $rowCount++;
+      /**
+       * Data
+       */
+      foreach($rs as $v){
+        $column = 0;
+        foreach($v as $v2){
+          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($column, $rowCount, $v2);
+          $column++;
+        }
+        $rowCount++;
+      }
+    }
+    return $objPHPExcel;
+  }
+  private function get_filename($filename){
+    if(!$filename){
+      $filename = 'export_'.date('ymdHis').'.xlsx';
+    }
+    return $filename;
+  }
+  public function download_excel($rs, $filename = null){
+    $objPHPExcel = $this->get_obj_from_data($rs);
+    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    /**
+     * 
+     */
+    $filename = $this->get_filename($filename);
+    /**
+     * 
+     */
+   header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
+    header('Content-Disposition: attachment;filename="'.$filename.'"');
+    header('Cache-Control: max-age=0');
+    /**
+     * IE 9 issue.
+     */
+    header('Cache-Control: max-age=1');
+    /**
+     * IE over SSL issue.
+     */
+    header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+    header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+    header ('Cache-Control: cache, must-revalidate');
+    header ('Pragma: public');
+    /**
+     * 
+     */
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+    $objWriter->save('php://output');
+  }
+  public function save_excel($rs, $filename){
+    $objPHPExcel = $this->get_obj_from_data($rs);
+    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    $objWriter->save(wfGlobals::getAppDir().$filename);
   }
 }

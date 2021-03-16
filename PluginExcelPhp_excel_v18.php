@@ -48,12 +48,10 @@ class PluginExcelPhp_excel_v18{
     $objPHPExcel->setActiveSheetIndexByName($data->get('sheet'));
     $active_sheet = $objPHPExcel->getActiveSheet();
     $range = $active_sheet->rangeToArray($data->get('range'));
-    
     $key_id = null;
     if($data->get('key_id')){
       $key_id = $data->get('key_id');
     }
-    
     if(!$data->get('first_row_as_key')){
       return $range;
     }else{
@@ -108,24 +106,5 @@ class PluginExcelPhp_excel_v18{
     }else{
       return array('success' => false, 'description' => 'to_file is not set!', 'str' => $str);
     }
-    
   }
-  
-  
-  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

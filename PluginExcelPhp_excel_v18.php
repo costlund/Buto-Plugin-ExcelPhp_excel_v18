@@ -1,9 +1,6 @@
 <?php
 class PluginExcelPhp_excel_v18{
   function __construct($buto = false) {
-    if($buto){
-      include_once __DIR__.'/PHPExcel-1.8/Classes/PHPExcel.php';
-    }
     include_once __DIR__.'/PHPExcel-1.8/Classes/PHPExcel.php';
   }
   public function widget_demo($data){

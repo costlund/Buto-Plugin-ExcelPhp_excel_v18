@@ -1474,7 +1474,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      * @param $pValue PHPExcel_Style_Conditional[]
      * @return PHPExcel_Worksheet
      */
-    public function setConditionalStyles($pCoordinate = 'A1', $pValue)
+    public function setConditionalStyles($pCoordinate = 'A1', $pValue = null)
     {
         $this->conditionalStylesCollection[strtoupper($pCoordinate)] = $pValue;
         return $this;
@@ -2346,16 +2346,16 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
         $pCoordinate = strtoupper($pCoordinate);
 
         // Convert 'A' to 'A:A'
-        $pCoordinate = preg_replace('/^([A-Z]+)$/', '${1}:${1}', $pCoordinate);
+        $pCoordinate = preg_replace('/^([A-Z]+)$/', '$[1]:$[1]', $pCoordinate);
 
         // Convert '1' to '1:1'
-        $pCoordinate = preg_replace('/^([0-9]+)$/', '${1}:${1}', $pCoordinate);
+        $pCoordinate = preg_replace('/^([0-9]+)$/', '$[1]:$[1]', $pCoordinate);
 
         // Convert 'A:C' to 'A1:C1048576'
-        $pCoordinate = preg_replace('/^([A-Z]+):([A-Z]+)$/', '${1}1:${2}1048576', $pCoordinate);
+        $pCoordinate = preg_replace('/^([A-Z]+):([A-Z]+)$/', '$[1]1:$[2]1048576', $pCoordinate);
 
         // Convert '1:3' to 'A1:XFD3'
-        $pCoordinate = preg_replace('/^([0-9]+):([0-9]+)$/', 'A${1}:XFD${2}', $pCoordinate);
+        $pCoordinate = preg_replace('/^([0-9]+):([0-9]+)$/', 'A$[1]:XFD$[2]', $pCoordinate);
 
         if (strpos($pCoordinate, ':') !== false || strpos($pCoordinate, ',') !== false) {
             list($first, ) = PHPExcel_Cell::splitRange($pCoordinate);

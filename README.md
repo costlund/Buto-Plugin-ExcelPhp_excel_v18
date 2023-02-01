@@ -32,10 +32,31 @@ wfPlugin::includeonce('excel/php_excel_v18');
 $excel = new PluginExcelPhp_excel_v18();
 $excel->download_excel($data, 'people.xlsx');
 ```
+
 ## Method save_excel
 ```
 $data = array(array('id' => '1234', 'name' => 'John'));
 wfPlugin::includeonce('excel/php_excel_v18');
 $excel = new PluginExcelPhp_excel_v18();
 $excel->save_excel($data, '/theme/my/theme/people.xlsx');
+```
+
+## PHP extensions
+PHP must have this extensions enabled.
+
+### ZipArchive
+Uncaught Error: Class 'ZipArchive' not found in ...
+```
+sudo apt-get install php7.4-zip
+```
+
+### ZipArchive
+Uncaught Error: Class 'XMLWriter' not found in ...
+```
+sudo apt-get install php7.4-xml
+```
+
+### Restart apache
+```
+sudo service apache2 restart
 ```

@@ -194,12 +194,12 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase
         foreach ($this->getCellList() as $coord) {
             sscanf($coord, '%[A-Z]%d', $c, $r);
             $row[$r] = $r;
-            $col[$c] = strlen($c).$c;
+            $col[$c] = wfPhpfunc::strlen($c).$c;
         }
         if (!empty($row)) {
             // Determine highest column and row
             $highestRow = max($row);
-            $highestColumn = substr(max($col), 1);
+            $highestColumn = wfPhpfunc::substr(max($col), 1);
         }
 
         return array(

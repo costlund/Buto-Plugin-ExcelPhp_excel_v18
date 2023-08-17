@@ -91,7 +91,7 @@ class PHPExcel_Cell_DataType
         $pValue = PHPExcel_Shared_String::Substring($pValue, 0, 32767);
 
         // we require that newline is represented as "\n" in core, not as "\r\n" or "\r"
-        $pValue = str_replace(array("\r\n", "\r"), "\n", $pValue);
+        $pValue = wfPhpfunc::str_replace(array("\r\n", "\r"), "\n", $pValue);
 
         return $pValue;
     }

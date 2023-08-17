@@ -609,7 +609,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
                                 if ($hasCalculatedValue) {
                                     $type = PHPExcel_Cell_DataType::TYPE_FORMULA;
 //                                    echo 'Formula: ', $cellDataFormula, PHP_EOL;
-                                    $cellDataFormula = substr($cellDataFormula, strpos($cellDataFormula, ':=')+1);
+                                    $cellDataFormula = wfPhpfunc::substr($cellDataFormula, strpos($cellDataFormula, ':=')+1);
                                     $temp = explode('"', $cellDataFormula);
                                     $tKey = false;
                                     foreach ($temp as &$value) {

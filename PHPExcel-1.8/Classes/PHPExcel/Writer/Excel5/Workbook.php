@@ -322,9 +322,9 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
                 $colorIndex = 8 + count($this->colors);
                 $this->palette[$colorIndex] =
                     array(
-                        hexdec(substr($rgb, 0, 2)),
-                        hexdec(substr($rgb, 2, 2)),
-                        hexdec(substr($rgb, 4)),
+                        hexdec(wfPhpfunc::substr($rgb, 0, 2)),
+                        hexdec(wfPhpfunc::substr($rgb, 2, 2)),
+                        hexdec(wfPhpfunc::substr($rgb, 4)),
                         0
                     );
                 $this->colors[$rgb] = $colorIndex;
@@ -478,7 +478,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
         // add size of Workbook globals part 2, the length of the SHEET records
         $total_worksheets = count($this->phpExcel->getAllSheets());
         foreach ($this->phpExcel->getWorksheetIterator() as $sheet) {
-            $offset += $boundsheet_length + strlen(PHPExcel_Shared_String::UTF8toBIFF8UnicodeShort($sheet->getTitle()));
+            $offset += $boundsheet_length + wfPhpfunc::strlen(PHPExcel_Shared_String::UTF8toBIFF8UnicodeShort($sheet->getTitle()));
         }
 
         // add the sizes of each of the Sheet substreams, respectively
@@ -651,7 +651,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
                 // Create absolute coordinate
                 $range = PHPExcel_Cell::splitRange($namedRange->getRange());
                 for ($i = 0; $i < count($range); $i++) {
-                    $range[$i][0] = '\'' . str_replace("'", "''", $namedRange->getWorksheet()->getTitle()) . '\'!' . PHPExcel_Cell::absoluteCoordinate($range[$i][0]);
+                    $range[$i][0] = '\'' . wfPhpfunc::str_replace("'", "''", $namedRange->getWorksheet()->getTitle()) . '\'!' . PHPExcel_Cell::absoluteCoordinate($range[$i][0]);
                     if (isset($range[$i][1])) {
                         $range[$i][1] = PHPExcel_Cell::absoluteCoordinate($range[$i][1]);
                     }
@@ -665,7 +665,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 
                     // make sure tRef3d is of type tRef3dR (0x3A)
                     if (isset($formulaData[0]) and ($formulaData[0] == "\x7A" or $formulaData[0] == "\x5A")) {
-                        $formulaData = "\x3A" . substr($formulaData, 1);
+                        $formulaData = "\x3A" . wfPhpfunc::substr($formulaData, 1);
                     }
 
                     if ($namedRange->getLocalOnly()) {
@@ -806,15 +806,15 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
         $nlen = PHPExcel_Shared_String::CountCharacters($name);
 
         // name with stripped length field
-        $name = substr(PHPExcel_Shared_String::UTF8toBIFF8UnicodeLong($name), 2);
+        $name = wfPhpfunc::substr(PHPExcel_Shared_String::UTF8toBIFF8UnicodeLong($name), 2);
 
         // size of the formula (in bytes)
-        $sz = strlen($formulaData);
+        $sz = wfPhpfunc::strlen($formulaData);
 
         // combine the parts
         $data = pack('vCCvvvCCCC', $options, 0, $nlen, $sz, 0, $sheetIndex, 0, 0, 0, 0)
             . $name . $formulaData;
-        $length = strlen($data);
+        $length = wfPhpfunc::strlen($data);
 
         $header = pack('vv', $record, $length);
 
@@ -848,12 +848,12 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
         );
 
         // size of the formula (in bytes)
-        $sz = strlen($extra);
+        $sz = wfPhpfunc::strlen($extra);
 
         // combine the parts
         $data = pack('vCCvvvCCCCC', $options, 0, 1, $sz, 0, $sheetIndex, 0, 0, 0, 0, 0)
             . $name . $extra;
-        $length = strlen($data);
+        $length = wfPhpfunc::strlen($data);
 
         $header = pack('vv', $record, $length);
 
@@ -939,7 +939,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
         $data = pack("VCC", $offset, $ss, $st);
         $data .= PHPExcel_Shared_String::UTF8toBIFF8UnicodeShort($sheetname);
 
-        $length = strlen($data);
+        $length = wfPhpfunc::strlen($data);
         $header = pack("vv", $record, $length);
         $this->append($header . $data);
     }
@@ -1005,7 +1005,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
         $record = 0x041E;    // Record identifier
 
         $numberFormatString = PHPExcel_Shared_String::UTF8toBIFF8UnicodeLong($format);
-        $length = 2 + strlen($numberFormatString);    // Number of bytes to follow
+        $length = 2 + wfPhpfunc::strlen($numberFormatString);    // Number of bytes to follow
 
 
         $header = pack("vv", $record, $length);
@@ -1064,9 +1064,9 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
     private function writeExternalSheet($sheetname)
     {
         $record = 0x0017;                     // Record identifier
-        $length = 0x02 + strlen($sheetname);  // Number of bytes to follow
+        $length = 0x02 + wfPhpfunc::strlen($sheetname);  // Number of bytes to follow
 
-        $cch    = strlen($sheetname);         // Length of sheet name
+        $cch    = wfPhpfunc::strlen($sheetname);         // Length of sheet name
         $rgch   = 0x03;                       // Filename encoding
 
         $header = pack("vv", $record, $length);
@@ -1320,11 +1320,11 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
                 // there will be need for more than one cylcle, if string longer than one record data block, there
                 // may be need for even more cycles
 
-                if (strlen($recordData) + strlen($string) <= $continue_limit) {
+                if (wfPhpfunc::strlen($recordData) + wfPhpfunc::strlen($string) <= $continue_limit) {
                     // then we can write the string (or remainder of string) without any problems
                     $recordData .= $string;
 
-                    if (strlen($recordData) + strlen($string) == $continue_limit) {
+                    if (wfPhpfunc::strlen($recordData) + wfPhpfunc::strlen($string) == $continue_limit) {
                         // we close the record data block, and initialize a new one
                         $recordDatas[] = $recordData;
                         $recordData = '';
@@ -1337,7 +1337,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
                     // If the string is very long it may need to be written in more than one CONTINUE record.
 
                     // check how many bytes more there is room for in the current record
-                    $space_remaining = $continue_limit - strlen($recordData);
+                    $space_remaining = $continue_limit - wfPhpfunc::strlen($recordData);
 
                     // minimum space needed
                     // uncompressed: 2 byte string length length field + 1 byte option flags + 2 byte character
@@ -1364,14 +1364,14 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
                         $effective_space_remaining = $space_remaining;
 
                         // for uncompressed strings, sometimes effective space remaining is reduced by 1
-                        if ($encoding == 1 && (strlen($string) - $space_remaining) % 2 == 1) {
+                        if ($encoding == 1 && (wfPhpfunc::strlen($string) - $space_remaining) % 2 == 1) {
                             --$effective_space_remaining;
                         }
 
                         // one block fininshed, store the block data
-                        $recordData .= substr($string, 0, $effective_space_remaining);
+                        $recordData .= wfPhpfunc::substr($string, 0, $effective_space_remaining);
 
-                        $string = substr($string, $effective_space_remaining); // for next cycle in while loop
+                        $string = wfPhpfunc::substr($string, $effective_space_remaining); // for next cycle in while loop
                         $recordDatas[] = $recordData;
 
                         // start new record data block with the repeated option flags
@@ -1383,7 +1383,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 
         // Store the last record data block unless it is empty
         // if there was no need for any continue records, this will be the for SST record data block itself
-        if (strlen($recordData) > 0) {
+        if (wfPhpfunc::strlen($recordData) > 0) {
             $recordDatas[] = $recordData;
         }
 
@@ -1393,7 +1393,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
             // first block should have the SST record header, remaing should have CONTINUE header
             $record = ($i == 0) ? 0x00FC : 0x003C;
 
-            $header = pack("vv", $record, strlen($recordData));
+            $header = pack("vv", $record, wfPhpfunc::strlen($recordData));
             $data = $header . $recordData;
 
             $chunk .= $this->writeData($data);
@@ -1413,7 +1413,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
             $data = $writer->close();
 
             $record = 0x00EB;
-            $length = strlen($data);
+            $length = wfPhpfunc::strlen($data);
             $header = pack("vv", $record, $length);
 
             return $this->writeData($header . $data);

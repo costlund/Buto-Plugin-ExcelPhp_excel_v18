@@ -52,8 +52,8 @@ class PHPExcel_Writer_PDF implements PHPExcel_Writer_IWriter
         if (is_null($pdfLibraryName)) {
             throw new PHPExcel_Writer_Exception("PDF Rendering library path has not been defined.");
         }
-        $includePath = str_replace('\\', '/', get_include_path());
-        $rendererPath = str_replace('\\', '/', $pdfLibraryPath);
+        $includePath = wfPhpfunc::str_replace('\\', '/', get_include_path());
+        $rendererPath = wfPhpfunc::str_replace('\\', '/', $pdfLibraryPath);
         if (strpos($rendererPath, $includePath) === false) {
             set_include_path(get_include_path() . PATH_SEPARATOR . $pdfLibraryPath);
         }

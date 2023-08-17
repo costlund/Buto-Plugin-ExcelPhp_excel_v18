@@ -98,7 +98,7 @@ class PHPExcel_Cell_AdvancedValueBinder extends PHPExcel_Cell_DefaultValueBinder
             // Check for percentage
             if (preg_match('/^\-?[0-9]*\.?[0-9]*\s?\%$/', $value)) {
                 // Convert value to number
-                $value = (float) str_replace('%', '', $value) / 100;
+                $value = (float) wfPhpfunc::str_replace('%', '', $value) / 100;
                 $cell->setValueExplicit($value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
                 // Set style
                 $cell->getWorksheet()->getStyle($cell->getCoordinate())
@@ -112,17 +112,17 @@ class PHPExcel_Cell_AdvancedValueBinder extends PHPExcel_Cell_DefaultValueBinder
             $thousandsSeparator = PHPExcel_Shared_String::getThousandsSeparator();
             if (preg_match('/^'.preg_quote($currencyCode).' *(\d{1,3}('.preg_quote($thousandsSeparator).'\d[3])*|(\d+))('.preg_quote($decimalSeparator).'\d[2])?$/', $value)) {
                 // Convert value to number
-                $value = (float) trim(str_replace(array($currencyCode, $thousandsSeparator, $decimalSeparator), array('', '', '.'), $value));
+                $value = (float) trim(wfPhpfunc::str_replace(array($currencyCode, $thousandsSeparator, $decimalSeparator), array('', '', '.'), $value));
                 $cell->setValueExplicit($value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
                 // Set style
                 $cell->getWorksheet()->getStyle($cell->getCoordinate())
                     ->getNumberFormat()->setFormatCode(
-                        str_replace('$', $currencyCode, PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE)
+                        wfPhpfunc::str_replace('$', $currencyCode, PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE)
                     );
                 return true;
             } elseif (preg_match('/^\$ *(\d{1,3}(\,\d[3])*|(\d+))(\.\d[2])?$/', $value)) {
                 // Convert value to number
-                $value = (float) trim(str_replace(array('$',','), '', $value));
+                $value = (float) trim(wfPhpfunc::str_replace(array('$',','), '', $value));
                 $cell->setValueExplicit($value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
                 // Set style
                 $cell->getWorksheet()->getStyle($cell->getCoordinate())

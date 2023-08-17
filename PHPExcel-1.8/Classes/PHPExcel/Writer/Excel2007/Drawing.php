@@ -529,7 +529,7 @@ class PHPExcel_Writer_Excel2007_Drawing extends PHPExcel_Writer_Excel2007_Writer
     {
         // Calculate object id
         preg_match('{(\d+)}', md5($pReference), $m);
-        $id = 1500 + (substr($m[1], 0, 2) * 1);
+        $id = 1500 + (wfPhpfunc::substr($m[1], 0, 2) * 1);
 
         // Calculate offset
         $width = $pImage->getWidth();

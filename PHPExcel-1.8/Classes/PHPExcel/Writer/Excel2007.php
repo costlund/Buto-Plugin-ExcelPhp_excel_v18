@@ -355,7 +355,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
                     $imageContents = null;
                     $imagePath = $this->getDrawingHashTable()->getByIndex($i)->getPath();
                     if (strpos($imagePath, 'zip://') !== false) {
-                        $imagePath = substr($imagePath, 6);
+                        $imagePath = wfPhpfunc::substr($imagePath, 6);
                         $imagePathSplitted = explode('#', $imagePath);
 
                         $imageZip = new ZipArchive();
@@ -367,7 +367,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
                         $imageContents = file_get_contents($imagePath);
                     }
 
-                    $objZip->addFromString('xl/media/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
+                    $objZip->addFromString('xl/media/' . wfPhpfunc::str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
                 } elseif ($this->getDrawingHashTable()->getByIndex($i) instanceof PHPExcel_Worksheet_MemoryDrawing) {
                     ob_start();
                     call_user_func(
@@ -377,7 +377,7 @@ class PHPExcel_Writer_Excel2007 extends PHPExcel_Writer_Abstract implements PHPE
                     $imageContents = ob_get_contents();
                     ob_end_clean();
 
-                    $objZip->addFromString('xl/media/' . str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
+                    $objZip->addFromString('xl/media/' . wfPhpfunc::str_replace(' ', '_', $this->getDrawingHashTable()->getByIndex($i)->getIndexedFilename()), $imageContents);
                 }
             }
 

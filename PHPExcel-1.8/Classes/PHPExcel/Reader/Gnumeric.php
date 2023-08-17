@@ -767,7 +767,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
                 $range = explode('!', $range);
                 $range[0] = trim($range[0], "'");
                 if ($worksheet = $objPHPExcel->getSheetByName($range[0])) {
-                    $extractedRange = str_replace('$', '', $range[1]);
+                    $extractedRange = wfPhpfunc::str_replace('$', '', $range[1]);
                     $objPHPExcel->addNamedRange(new PHPExcel_NamedRange($name, $worksheet, $extractedRange));
                 }
             }
@@ -842,9 +842,9 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
     private static function parseGnumericColour($gnmColour)
     {
         list($gnmR, $gnmG, $gnmB) = explode(':', $gnmColour);
-        $gnmR = substr(str_pad($gnmR, 4, '0', STR_PAD_RIGHT), 0, 2);
-        $gnmG = substr(str_pad($gnmG, 4, '0', STR_PAD_RIGHT), 0, 2);
-        $gnmB = substr(str_pad($gnmB, 4, '0', STR_PAD_RIGHT), 0, 2);
+        $gnmR = wfPhpfunc::substr(str_pad($gnmR, 4, '0', STR_PAD_RIGHT), 0, 2);
+        $gnmG = wfPhpfunc::substr(str_pad($gnmG, 4, '0', STR_PAD_RIGHT), 0, 2);
+        $gnmB = wfPhpfunc::substr(str_pad($gnmB, 4, '0', STR_PAD_RIGHT), 0, 2);
         return $gnmR . $gnmG . $gnmB;
     }
 }

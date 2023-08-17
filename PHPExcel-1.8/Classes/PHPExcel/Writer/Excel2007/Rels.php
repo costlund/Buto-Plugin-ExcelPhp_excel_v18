@@ -325,7 +325,7 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
                     $objWriter,
                     $i,
                     'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image',
-                    '../media/' . str_replace(' ', '', $iterator->current()->getIndexedFilename())
+                    '../media/' . wfPhpfunc::str_replace(' ', '', $iterator->current()->getIndexedFilename())
                 );
             }
 

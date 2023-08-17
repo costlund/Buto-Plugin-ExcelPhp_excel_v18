@@ -423,7 +423,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
             throw new PHPExcel_Exception('Sheet code name cannot be empty.');
         }
         // Some of the printable ASCII characters are invalid:  * : / \ ? [ ] and  first and last characters cannot be a "'"
-        if ((str_replace(self::$invalidCharacters, '', $pValue) !== $pValue) ||
+        if ((wfPhpfunc::str_replace(self::$invalidCharacters, '', $pValue) !== $pValue) ||
             (PHPExcel_Shared_String::Substring($pValue, -1, 1)=='\'') ||
             (PHPExcel_Shared_String::Substring($pValue, 0, 1)=='\'')) {
             throw new PHPExcel_Exception('Invalid character found in sheet code name');
@@ -447,7 +447,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
     private static function checkSheetTitle($pValue)
     {
         // Some of the printable ASCII characters are invalid:  * : / \ ? [ ]
-        if (str_replace(self::$invalidCharacters, '', $pValue) !== $pValue) {
+        if (wfPhpfunc::str_replace(self::$invalidCharacters, '', $pValue) !== $pValue) {
             throw new PHPExcel_Exception('Invalid character found in sheet title');
         }
 
@@ -2669,10 +2669,10 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
         }
 
         if ($returnRange) {
-            return array(trim(substr($pRange, 0, $sep), "'"), substr($pRange, $sep + 1));
+            return array(trim(wfPhpfunc::substr($pRange, 0, $sep), "'"), wfPhpfunc::substr($pRange, $sep + 1));
         }
 
-        return substr($pRange, $sep + 1);
+        return wfPhpfunc::substr($pRange, $sep + 1);
     }
 
     /**
@@ -2910,7 +2910,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
         if ($this->getCodeName() == $pValue) {
             return $this;
         }
-        $pValue = str_replace(' ', '_', $pValue);//Excel does this automatically without flinching, we are doing the same
+        $pValue = wfPhpfunc::str_replace(' ', '_', $pValue);//Excel does this automatically without flinching, we are doing the same
         // Syntax check
         // throw an exception if not valid
         self::checkSheetCodeName($pValue);

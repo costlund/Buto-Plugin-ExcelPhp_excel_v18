@@ -758,29 +758,29 @@ class PHPExcel_Calculation_Engineering
 
         $realNumber = $imaginary = 0;
         //    Extract the suffix, if there is one
-        $suffix = substr($workString, -1);
+        $suffix = wfPhpfunc::substr($workString, -1);
         if (!is_numeric($suffix)) {
-            $workString = substr($workString, 0, -1);
+            $workString = wfPhpfunc::substr($workString, 0, -1);
         } else {
             $suffix = '';
         }
 
         //    Split the input into its Real and Imaginary components
         $leadingSign = 0;
-        if (strlen($workString) > 0) {
+        if (wfPhpfunc::strlen($workString) > 0) {
             $leadingSign = (($workString[0] == '+') || ($workString[0] == '-')) ? 1 : 0;
         }
         $power = '';
         $realNumber = strtok($workString, '+-');
-        if (strtoupper(substr($realNumber, -1)) == 'E') {
+        if (strtoupper(wfPhpfunc::substr($realNumber, -1)) == 'E') {
             $power = strtok('+-');
             ++$leadingSign;
         }
 
-        $realNumber = substr($workString, 0, strlen($realNumber)+strlen($power)+$leadingSign);
+        $realNumber = wfPhpfunc::substr($workString, 0, wfPhpfunc::strlen($realNumber)+strlen($power)+$leadingSign);
 
         if ($suffix != '') {
-            $imaginary = substr($workString, strlen($realNumber));
+            $imaginary = wfPhpfunc::substr($workString, wfPhpfunc::strlen($realNumber));
 
             if (($imaginary == '') && (($realNumber == '') || ($realNumber == '+') || ($realNumber == '-'))) {
                 $imaginary = $realNumber.'1';
@@ -810,16 +810,16 @@ class PHPExcel_Calculation_Engineering
     private static function cleanComplex($complexNumber)
     {
         if ($complexNumber[0] == '+') {
-            $complexNumber = substr($complexNumber, 1);
+            $complexNumber = wfPhpfunc::substr($complexNumber, 1);
         }
         if ($complexNumber[0] == '0') {
-            $complexNumber = substr($complexNumber, 1);
+            $complexNumber = wfPhpfunc::substr($complexNumber, 1);
         }
         if ($complexNumber[0] == '.') {
             $complexNumber = '0'.$complexNumber;
         }
         if ($complexNumber[0] == '+') {
-            $complexNumber = substr($complexNumber, 1);
+            $complexNumber = wfPhpfunc::substr($complexNumber, 1);
         }
         return $complexNumber;
     }
@@ -834,14 +834,14 @@ class PHPExcel_Calculation_Engineering
     private static function nbrConversionFormat($xVal, $places)
     {
         if (!is_null($places)) {
-            if (strlen($xVal) <= $places) {
-                return substr(str_pad($xVal, $places, '0', STR_PAD_LEFT), -10);
+            if (wfPhpfunc::strlen($xVal) <= $places) {
+                return wfPhpfunc::substr(str_pad($xVal, $places, '0', STR_PAD_LEFT), -10);
             } else {
                 return PHPExcel_Calculation_Functions::NaN();
             }
         }
 
-        return substr($xVal, -10);
+        return wfPhpfunc::substr($xVal, -10);
     }
 
     /**
@@ -1157,14 +1157,14 @@ class PHPExcel_Calculation_Engineering
             $x = floor($x);
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[01]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[01]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-        if (strlen($x) > 10) {
+        if (wfPhpfunc::strlen($x) > 10) {
             return PHPExcel_Calculation_Functions::NaN();
-        } elseif (strlen($x) == 10) {
+        } elseif (wfPhpfunc::strlen($x) == 10) {
             //    Two's Complement
-            $x = substr($x, -9);
+            $x = wfPhpfunc::substr($x, -9);
             return '-'.(512-bindec($x));
         }
         return bindec($x);
@@ -1211,14 +1211,14 @@ class PHPExcel_Calculation_Engineering
             $x = floor($x);
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[01]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[01]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-        if (strlen($x) > 10) {
+        if (wfPhpfunc::strlen($x) > 10) {
             return PHPExcel_Calculation_Functions::NaN();
-        } elseif (strlen($x) == 10) {
+        } elseif (wfPhpfunc::strlen($x) == 10) {
             //    Two's Complement
-            return str_repeat('F', 8).substr(strtoupper(dechex(bindec(substr($x, -9)))), -2);
+            return str_repeat('F', 8).substr(strtoupper(dechex(bindec(wfPhpfunc::substr($x, -9)))), -2);
         }
         $hexVal = (string) strtoupper(dechex(bindec($x)));
 
@@ -1266,14 +1266,14 @@ class PHPExcel_Calculation_Engineering
             $x = floor($x);
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[01]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[01]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
-        if (strlen($x) > 10) {
+        if (wfPhpfunc::strlen($x) > 10) {
             return PHPExcel_Calculation_Functions::NaN();
-        } elseif (strlen($x) == 10) {
+        } elseif (wfPhpfunc::strlen($x) == 10) {
             //    Two's Complement
-            return str_repeat('7', 7).substr(strtoupper(decoct(bindec(substr($x, -9)))), -3);
+            return str_repeat('7', 7).substr(strtoupper(decoct(bindec(wfPhpfunc::substr($x, -9)))), -3);
         }
         $octVal = (string) decoct(bindec($x));
 
@@ -1322,15 +1322,15 @@ class PHPExcel_Calculation_Engineering
             }
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) floor($x);
         $r = decbin($x);
-        if (strlen($r) == 32) {
+        if (wfPhpfunc::strlen($r) == 32) {
             //    Two's Complement
-            $r = substr($r, -10);
-        } elseif (strlen($r) > 11) {
+            $r = wfPhpfunc::substr($r, -10);
+        } elseif (wfPhpfunc::strlen($r) > 11) {
             return PHPExcel_Calculation_Functions::NaN();
         }
 
@@ -1379,12 +1379,12 @@ class PHPExcel_Calculation_Engineering
             }
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) floor($x);
         $r = strtoupper(dechex($x));
-        if (strlen($r) == 8) {
+        if (wfPhpfunc::strlen($r) == 8) {
             //    Two's Complement
             $r = 'FF'.$r;
         }
@@ -1434,14 +1434,14 @@ class PHPExcel_Calculation_Engineering
             }
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[-0123456789.]/', $x, $out)) {
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) floor($x);
         $r = decoct($x);
-        if (strlen($r) == 11) {
+        if (wfPhpfunc::strlen($r) == 11) {
             //    Two's Complement
-            $r = substr($r, -10);
+            $r = wfPhpfunc::substr($r, -10);
         }
 
         return self::nbrConversionFormat($r, $places);
@@ -1488,12 +1488,12 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $binVal = decbin(hexdec($x));
 
-        return substr(self::nbrConversionFormat($binVal, $places), -10);
+        return wfPhpfunc::substr(self::nbrConversionFormat($binVal, $places), -10);
     }
 
 
@@ -1524,7 +1524,7 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         return hexdec($x);
@@ -1572,7 +1572,7 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
+        if (wfPhpfunc::strlen($x) > preg_match_all('/[0123456789ABCDEF]/', strtoupper($x), $out)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $octVal = decoct(hexdec($x));
@@ -1624,7 +1624,7 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (preg_match_all('/[01234567]/', $x, $out) != strlen($x)) {
+        if (preg_match_all('/[01234567]/', $x, $out) != wfPhpfunc::strlen($x)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $r = decbin(octdec($x));
@@ -1660,7 +1660,7 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (preg_match_all('/[01234567]/', $x, $out) != strlen($x)) {
+        if (preg_match_all('/[01234567]/', $x, $out) != wfPhpfunc::strlen($x)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         return octdec($x);
@@ -1705,7 +1705,7 @@ class PHPExcel_Calculation_Engineering
             return PHPExcel_Calculation_Functions::VALUE();
         }
         $x = (string) $x;
-        if (preg_match_all('/[01234567]/', $x, $out) != strlen($x)) {
+        if (preg_match_all('/[01234567]/', $x, $out) != wfPhpfunc::strlen($x)) {
             return PHPExcel_Calculation_Functions::NaN();
         }
         $hexVal = strtoupper(dechex(octdec($x)));
@@ -2576,8 +2576,8 @@ class PHPExcel_Calculation_Engineering
         if (isset(self::$conversionUnits[$fromUOM])) {
             $unitGroup1 = self::$conversionUnits[$fromUOM]['Group'];
         } else {
-            $fromMultiplier = substr($fromUOM, 0, 1);
-            $fromUOM = substr($fromUOM, 1);
+            $fromMultiplier = wfPhpfunc::substr($fromUOM, 0, 1);
+            $fromUOM = wfPhpfunc::substr($fromUOM, 1);
             if (isset(self::$conversionMultipliers[$fromMultiplier])) {
                 $fromMultiplier = self::$conversionMultipliers[$fromMultiplier]['multiplier'];
             } else {
@@ -2595,8 +2595,8 @@ class PHPExcel_Calculation_Engineering
         if (isset(self::$conversionUnits[$toUOM])) {
             $unitGroup2 = self::$conversionUnits[$toUOM]['Group'];
         } else {
-            $toMultiplier = substr($toUOM, 0, 1);
-            $toUOM = substr($toUOM, 1);
+            $toMultiplier = wfPhpfunc::substr($toUOM, 0, 1);
+            $toUOM = wfPhpfunc::substr($toUOM, 1);
             if (isset(self::$conversionMultipliers[$toMultiplier])) {
                 $toMultiplier = self::$conversionMultipliers[$toMultiplier]['multiplier'];
             } else {

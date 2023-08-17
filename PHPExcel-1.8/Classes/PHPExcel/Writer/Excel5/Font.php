@@ -117,7 +117,7 @@ class PHPExcel_Writer_Excel5_Font
         );
         $data .= PHPExcel_Shared_String::UTF8toBIFF8UnicodeShort($this->font->getName());
 
-        $length = strlen($data);
+        $length = wfPhpfunc::strlen($data);
         $header = pack("vv", $record, $length);
 
         return($header . $data);

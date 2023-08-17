@@ -269,9 +269,9 @@ class PHPExcel_Shared_OLE
             fseek($fh, $pos, SEEK_SET);
             $nameUtf16 = fread($fh, 64);
             $nameLength = self::_readInt2($fh);
-            $nameUtf16 = substr($nameUtf16, 0, $nameLength - 2);
+            $nameUtf16 = wfPhpfunc::substr($nameUtf16, 0, $nameLength - 2);
             // Simple conversion from UTF-16LE to ISO-8859-1
-            $name = str_replace("\x00", "", $nameUtf16);
+            $name = wfPhpfunc::str_replace("\x00", "", $nameUtf16);
             $type = self::_readInt1($fh);
             switch ($type) {
                 case self::OLE_PPS_TYPE_ROOT:
@@ -442,7 +442,7 @@ class PHPExcel_Shared_OLE
     public static function Asc2Ucs($ascii)
     {
         $rawname = '';
-        for ($i = 0; $i < strlen($ascii); ++$i) {
+        for ($i = 0; $i < wfPhpfunc::strlen($ascii); ++$i) {
             $rawname .= $ascii{$i} . "\x00";
         }
         return $rawname;
@@ -503,14 +503,14 @@ class PHPExcel_Shared_OLE
     */
     public static function OLE2LocalDate($string)
     {
-        if (strlen($string) != 8) {
+        if (wfPhpfunc::strlen($string) != 8) {
             return new PEAR_Error("Expecting 8 byte string");
         }
 
         // factor used for separating numbers into 4 bytes parts
         $factor = pow(2, 32);
-        list(, $high_part) = unpack('V', substr($string, 4, 4));
-        list(, $low_part) = unpack('V', substr($string, 0, 4));
+        list(, $high_part) = unpack('V', wfPhpfunc::substr($string, 4, 4));
+        list(, $low_part) = unpack('V', wfPhpfunc::substr($string, 0, 4));
 
         $big_date = ($high_part * $factor) + $low_part;
         // translate to seconds

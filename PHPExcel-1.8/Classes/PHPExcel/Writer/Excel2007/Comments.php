@@ -193,7 +193,7 @@ class PHPExcel_Writer_Excel2007_Comments extends PHPExcel_Writer_Excel2007_Write
          list($column, $row) = PHPExcel_Cell::coordinateFromString($pCellReference);
          $column = PHPExcel_Cell::columnIndexFromString($column);
          $id = 1024 + $column + $row;
-         $id = substr($id, 0, 4);
+         $id = wfPhpfunc::substr($id, 0, 4);
 
         // v:shape
         $objWriter->startElement('v:shape');

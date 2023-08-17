@@ -135,7 +135,7 @@ class PHPExcel_Shared_ZipArchive
         if ($index !== false) {
             $extracted = $this->getFromIndex($index);
         } else {
-            $fileName = substr($fileName, 1);
+            $fileName = wfPhpfunc::substr($fileName, 1);
             $index = $this->locateName($fileName);
             if ($index === false) {
                 return false;

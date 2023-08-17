@@ -1205,7 +1205,7 @@ class PHPExcel_Calculation_MathTrig
         // Loop through arguments
         foreach ($aArgs as $key => $arg) {
             if (!is_numeric($arg)) {
-                $arg = str_replace('"', '""', $arg);
+                $arg = wfPhpfunc::str_replace('"', '""', $arg);
                 $arg = PHPExcel_Calculation::wrapResult(strtoupper($arg));
             }
 

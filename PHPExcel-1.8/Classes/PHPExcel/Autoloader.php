@@ -68,7 +68,7 @@ class PHPExcel_Autoloader
         }
 
         $pClassFilePath = PHPEXCEL_ROOT .
-            str_replace('_', DIRECTORY_SEPARATOR, $pClassName) .
+            wfPhpfunc::str_replace('_', DIRECTORY_SEPARATOR, $pClassName) .
             '.php';
 
         if ((file_exists($pClassFilePath) === false) || (is_readable($pClassFilePath) === false)) {

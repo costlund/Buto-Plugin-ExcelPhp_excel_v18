@@ -200,7 +200,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
         parent::copyCellCollection($parent);
         //    Get a new id for the new file name
         $baseUnique = $this->getUniqueID();
-        $newCachePrefix = substr(md5($baseUnique), 0, 8) . '.';
+        $newCachePrefix = wfPhpfunc::substr(md5($baseUnique), 0, 8) . '.';
         $cacheList = $this->getCellList();
         foreach ($cacheList as $cellID) {
             if ($cellID != $this->currentObjectID) {
@@ -252,7 +252,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
 
         if ($this->cachePrefix === null) {
             $baseUnique = $this->getUniqueID();
-            $this->cachePrefix = substr(md5($baseUnique), 0, 8) . '.';
+            $this->cachePrefix = wfPhpfunc::substr(md5($baseUnique), 0, 8) . '.';
             $this->cacheTime = $cacheTime;
 
             parent::__construct($parent);

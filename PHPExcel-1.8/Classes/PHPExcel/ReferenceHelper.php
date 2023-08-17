@@ -72,7 +72,7 @@ class PHPExcel_ReferenceHelper
      */
     public static function columnSort($a, $b)
     {
-        return strcasecmp(strlen($a) . $a, strlen($b) . $b);
+        return strcasecmp(wfPhpfunc::strlen($a) . $a, wfPhpfunc::strlen($b) . $b);
     }
 
     /**
@@ -85,7 +85,7 @@ class PHPExcel_ReferenceHelper
      */
     public static function columnReverseSort($a, $b)
     {
-        return 1 - strcasecmp(strlen($a) . $a, strlen($b) . $b);
+        return 1 - strcasecmp(wfPhpfunc::strlen($a) . $a, wfPhpfunc::strlen($b) . $b);
     }
 
     /**
@@ -102,7 +102,7 @@ class PHPExcel_ReferenceHelper
         sscanf($b, '%[A-Z]%d', $bc, $br);
 
         if ($ar == $br) {
-            return strcasecmp(strlen($ac) . $ac, strlen($bc) . $bc);
+            return strcasecmp(wfPhpfunc::strlen($ac) . $ac, wfPhpfunc::strlen($bc) . $bc);
         }
         return ($ar < $br) ? -1 : 1;
     }
@@ -121,7 +121,7 @@ class PHPExcel_ReferenceHelper
         sscanf($b, '%[A-Z]%d', $bc, $br);
 
         if ($ar == $br) {
-            return 1 - strcasecmp(strlen($ac) . $ac, strlen($bc) . $bc);
+            return 1 - strcasecmp(wfPhpfunc::strlen($ac) . $ac, wfPhpfunc::strlen($bc) . $bc);
         }
         return ($ar < $br) ? 1 : -1;
     }
@@ -653,8 +653,8 @@ class PHPExcel_ReferenceHelper
                     foreach ($matches as $match) {
                         $fromString = ($match[2] > '') ? $match[2].'!' : '';
                         $fromString .= $match[3].':'.$match[4];
-                        $modified3 = substr($this->updateCellReference('$A'.$match[3], $pBefore, $pNumCols, $pNumRows), 2);
-                        $modified4 = substr($this->updateCellReference('$A'.$match[4], $pBefore, $pNumCols, $pNumRows), 2);
+                        $modified3 = wfPhpfunc::substr($this->updateCellReference('$A'.$match[3], $pBefore, $pNumCols, $pNumRows), 2);
+                        $modified4 = wfPhpfunc::substr($this->updateCellReference('$A'.$match[4], $pBefore, $pNumCols, $pNumRows), 2);
 
                         if ($match[3].':'.$match[4] !== $modified3.':'.$modified4) {
                             if (($match[2] == '') || (trim($match[2], "'") == $sheetName)) {
@@ -678,8 +678,8 @@ class PHPExcel_ReferenceHelper
                     foreach ($matches as $match) {
                         $fromString = ($match[2] > '') ? $match[2].'!' : '';
                         $fromString .= $match[3].':'.$match[4];
-                        $modified3 = substr($this->updateCellReference($match[3].'$1', $pBefore, $pNumCols, $pNumRows), 0, -2);
-                        $modified4 = substr($this->updateCellReference($match[4].'$1', $pBefore, $pNumCols, $pNumRows), 0, -2);
+                        $modified3 = wfPhpfunc::substr($this->updateCellReference($match[3].'$1', $pBefore, $pNumCols, $pNumRows), 0, -2);
+                        $modified4 = wfPhpfunc::substr($this->updateCellReference($match[4].'$1', $pBefore, $pNumCols, $pNumRows), 0, -2);
 
                         if ($match[3].':'.$match[4] !== $modified3.':'.$modified4) {
                             if (($match[2] == '') || (trim($match[2], "'") == $sheetName)) {
@@ -757,7 +757,7 @@ class PHPExcel_ReferenceHelper
                         ksort($cellTokens);
                         ksort($newCellTokens);
                     }   //  Update cell references in the formula
-                    $formulaBlock = str_replace('\\', '', preg_replace($cellTokens, $newCellTokens, $formulaBlock));
+                    $formulaBlock = wfPhpfunc::str_replace('\\', '', preg_replace($cellTokens, $newCellTokens, $formulaBlock));
                 }
             }
         }
@@ -814,8 +814,8 @@ class PHPExcel_ReferenceHelper
                 if (($cell !== null) && ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_FORMULA)) {
                     $formula = $cell->getValue();
                     if (strpos($formula, $oldName) !== false) {
-                        $formula = str_replace("'" . $oldName . "'!", "'" . $newName . "'!", $formula);
-                        $formula = str_replace($oldName . "!", $newName . "!", $formula);
+                        $formula = wfPhpfunc::str_replace("'" . $oldName . "'!", "'" . $newName . "'!", $formula);
+                        $formula = wfPhpfunc::str_replace($oldName . "!", $newName . "!", $formula);
                         $cell->setValueExplicit($formula, PHPExcel_Cell_DataType::TYPE_FORMULA);
                     }
                 }

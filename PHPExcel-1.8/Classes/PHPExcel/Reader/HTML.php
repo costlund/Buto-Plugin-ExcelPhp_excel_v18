@@ -133,7 +133,7 @@ class PHPExcel_Reader_HTML extends PHPExcel_Reader_Abstract implements PHPExcel_
         //    Reading 2048 bytes should be enough to validate that the format is HTML
         $data = fread($this->fileHandle, 2048);
         if ((strpos($data, '<') !== false) &&
-                (strlen($data) !== strlen(strip_tags($data)))) {
+                (wfPhpfunc::strlen($data) !== wfPhpfunc::strlen(strip_tags($data)))) {
             return true;
         }
 

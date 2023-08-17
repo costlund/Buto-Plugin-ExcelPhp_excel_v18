@@ -143,7 +143,7 @@ class PHPExcel_Shared_OLERead
         for ($i = 0; $i < $this->numBigBlockDepotBlocks; ++$i) {
             $pos = ($bigBlockDepotBlocks[$i] + 1) * self::BIG_BLOCK_SIZE;
 
-            $this->bigBlockChain .= substr($this->data, $pos, 4*$bbs);
+            $this->bigBlockChain .= wfPhpfunc::substr($this->data, $pos, 4*$bbs);
             $pos += 4*$bbs;
         }
 
@@ -153,7 +153,7 @@ class PHPExcel_Shared_OLERead
         while ($sbdBlock != -2) {
             $pos = ($sbdBlock + 1) * self::BIG_BLOCK_SIZE;
 
-            $this->smallBlockChain .= substr($this->data, $pos, 4*$bbs);
+            $this->smallBlockChain .= wfPhpfunc::substr($this->data, $pos, 4*$bbs);
             $pos += 4*$bbs;
 
             $sbdBlock = self::getInt4d($this->bigBlockChain, $sbdBlock*4);
@@ -186,7 +186,7 @@ class PHPExcel_Shared_OLERead
 
             while ($block != -2) {
                   $pos = $block * self::SMALL_BLOCK_SIZE;
-                $streamData .= substr($rootdata, $pos, self::SMALL_BLOCK_SIZE);
+                $streamData .= wfPhpfunc::substr($rootdata, $pos, self::SMALL_BLOCK_SIZE);
 
                 $block = self::getInt4d($this->smallBlockChain, $block*4);
             }
@@ -206,7 +206,7 @@ class PHPExcel_Shared_OLERead
 
             while ($block != -2) {
                 $pos = ($block + 1) * self::BIG_BLOCK_SIZE;
-                $streamData .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
+                $streamData .= wfPhpfunc::substr($this->data, $pos, self::BIG_BLOCK_SIZE);
                 $block = self::getInt4d($this->bigBlockChain, $block*4);
             }
 
@@ -227,7 +227,7 @@ class PHPExcel_Shared_OLERead
 
         while ($block != -2) {
             $pos = ($block + 1) * self::BIG_BLOCK_SIZE;
-            $data .= substr($this->data, $pos, self::BIG_BLOCK_SIZE);
+            $data .= wfPhpfunc::substr($this->data, $pos, self::BIG_BLOCK_SIZE);
             $block = self::getInt4d($this->bigBlockChain, $block*4);
         }
         return $data;
@@ -241,10 +241,10 @@ class PHPExcel_Shared_OLERead
         $offset = 0;
 
         // loop through entires, each entry is 128 bytes
-        $entryLen = strlen($this->entry);
+        $entryLen = wfPhpfunc::strlen($this->entry);
         while ($offset < $entryLen) {
             // entry data (128 bytes)
-            $d = substr($this->entry, $offset, self::PROPERTY_STORAGE_BLOCK_SIZE);
+            $d = wfPhpfunc::substr($this->entry, $offset, self::PROPERTY_STORAGE_BLOCK_SIZE);
 
             // size in bytes of name
             $nameSize = ord($d[self::SIZE_OF_NAME_POS]) | (ord($d[self::SIZE_OF_NAME_POS+1]) << 8);
@@ -258,7 +258,7 @@ class PHPExcel_Shared_OLERead
 
             $size = self::getInt4d($d, self::SIZE_POS);
 
-            $name = str_replace("\x00", "", substr($d, 0, $nameSize));
+            $name = wfPhpfunc::str_replace("\x00", "", wfPhpfunc::substr($d, 0, $nameSize));
 
             $this->props[] = array(
                 'name' => $name,

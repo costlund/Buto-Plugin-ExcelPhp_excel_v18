@@ -261,7 +261,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
         $this->storeData();
 
         //    Get a new id for the new table name
-        $tableName = str_replace('.', '_', $this->getUniqueID());
+        $tableName = wfPhpfunc::str_replace('.', '_', $this->getUniqueID());
         if (!$this->DBHandle->exec('CREATE TABLE kvp_'.$tableName.' (id VARCHAR(12) PRIMARY KEY, value BLOB)
             AS SELECT * FROM kvp_'.$this->TableName)
         ) {
@@ -299,7 +299,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
     {
         parent::__construct($parent);
         if (is_null($this->DBHandle)) {
-            $this->TableName = str_replace('.', '_', $this->getUniqueID());
+            $this->TableName = wfPhpfunc::str_replace('.', '_', $this->getUniqueID());
             $_DBName = ':memory:';
 
             $this->DBHandle = new SQLite3($_DBName);

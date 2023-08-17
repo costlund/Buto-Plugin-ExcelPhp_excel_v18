@@ -201,7 +201,7 @@ class PHPExcel_CachedObjectStorage_Memcache extends PHPExcel_CachedObjectStorage
         parent::copyCellCollection($parent);
         //    Get a new id for the new file name
         $baseUnique = $this->getUniqueID();
-        $newCachePrefix = substr(md5($baseUnique), 0, 8) . '.';
+        $newCachePrefix = wfPhpfunc::substr(md5($baseUnique), 0, 8) . '.';
         $cacheList = $this->getCellList();
         foreach ($cacheList as $cellID) {
             if ($cellID != $this->currentObjectID) {
@@ -255,7 +255,7 @@ class PHPExcel_CachedObjectStorage_Memcache extends PHPExcel_CachedObjectStorage
 
         if (is_null($this->cachePrefix)) {
             $baseUnique = $this->getUniqueID();
-            $this->cachePrefix = substr(md5($baseUnique), 0, 8) . '.';
+            $this->cachePrefix = wfPhpfunc::substr(md5($baseUnique), 0, 8) . '.';
 
             //    Set a new Memcache object and connect to the Memcache server
             $this->memcache = new Memcache();

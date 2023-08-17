@@ -807,7 +807,7 @@ class PHPExcel_Cell
             'n' => 14, 'o' => 15, 'p' => 16, 'q' => 17, 'r' => 18, 's' => 19, 't' => 20, 'u' => 21, 'v' => 22, 'w' => 23, 'x' => 24, 'y' => 25, 'z' => 26
         );
 
-        //    We also use the language construct isset() rather than the more costly strlen() function to match the length of $pString
+        //    We also use the language construct isset() rather than the more costly wfPhpfunc::strlen() function to match the length of $pString
         //        for improved performance
         if (isset($pString[0])) {
             if (!isset($pString[1])) {
@@ -865,7 +865,7 @@ class PHPExcel_Cell
         $returnValue = array();
 
         // Explode spaces
-        $cellBlocks = explode(' ', str_replace('$', '', strtoupper($pRange)));
+        $cellBlocks = explode(' ', wfPhpfunc::str_replace('$', '', strtoupper($pRange)));
         foreach ($cellBlocks as $cellBlock) {
             // Single cell?
             if (strpos($cellBlock, ':') === false && strpos($cellBlock, ',') === false) {

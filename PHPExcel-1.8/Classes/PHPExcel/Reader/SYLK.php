@@ -90,7 +90,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 
         // Analyze first line looking for ID; signature
         $lines = explode("\n", $data);
-        if (substr($lines[0], 0, 4) != 'ID;P') {
+        if (wfPhpfunc::substr($lines[0], 0, 4) != 'ID;P') {
             return false;
         }
 
@@ -155,7 +155,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 
             // explode each row at semicolons while taking into account that literal semicolon (;)
             // is escaped like this (;;)
-            $rowData = explode("\t", str_replace('¤', ';', str_replace(';', "\t", str_replace(';;', '¤', rtrim($rowData)))));
+            $rowData = explode("\t", wfPhpfunc::str_replace('¤', ';', wfPhpfunc::str_replace(';', "\t", wfPhpfunc::str_replace(';;', '¤', rtrim($rowData)))));
 
             $dataType = array_shift($rowData);
             if ($dataType == 'C') {
@@ -164,11 +164,11 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                     switch ($rowDatum[0]) {
                         case 'C':
                         case 'X':
-                            $columnIndex = substr($rowDatum, 1) - 1;
+                            $columnIndex = wfPhpfunc::substr($rowDatum, 1) - 1;
                             break;
                         case 'R':
                         case 'Y':
-                            $rowIndex = substr($rowDatum, 1);
+                            $rowIndex = wfPhpfunc::substr($rowDatum, 1);
                             break;
                     }
 
@@ -242,7 +242,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 
             // explode each row at semicolons while taking into account that literal semicolon (;)
             // is escaped like this (;;)
-            $rowData = explode("\t", str_replace('¤', ';', str_replace(';', "\t", str_replace(';;', '¤', rtrim($rowData)))));
+            $rowData = explode("\t", wfPhpfunc::str_replace('¤', ';', wfPhpfunc::str_replace(';', "\t", wfPhpfunc::str_replace(';;', '¤', rtrim($rowData)))));
 
             $dataType = array_shift($rowData);
             //    Read shared styles
@@ -251,17 +251,17 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                 foreach ($rowData as $rowDatum) {
                     switch ($rowDatum[0]) {
                         case 'P':
-                            $formatArray['numberformat']['code'] = str_replace($fromFormats, $toFormats, substr($rowDatum, 1));
+                            $formatArray['numberformat']['code'] = wfPhpfunc::str_replace($fromFormats, $toFormats, wfPhpfunc::substr($rowDatum, 1));
                             break;
                         case 'E':
                         case 'F':
-                            $formatArray['font']['name'] = substr($rowDatum, 1);
+                            $formatArray['font']['name'] = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'L':
-                            $formatArray['font']['size'] = substr($rowDatum, 1);
+                            $formatArray['font']['size'] = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'S':
-                            $styleSettings = substr($rowDatum, 1);
+                            $styleSettings = wfPhpfunc::substr($rowDatum, 1);
                             for ($i=0; $i<strlen($styleSettings); ++$i) {
                                 switch ($styleSettings{$i}) {
                                     case 'I':
@@ -296,14 +296,14 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                     switch ($rowDatum[0]) {
                         case 'C':
                         case 'X':
-                            $column = substr($rowDatum, 1);
+                            $column = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'R':
                         case 'Y':
-                            $row = substr($rowDatum, 1);
+                            $row = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'K':
-                            $cellData = substr($rowDatum, 1);
+                            $cellData = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'E':
                             $cellDataFormula = '='.substr($rowDatum, 1);
@@ -341,7 +341,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                                         }
                                         $A1CellReference = PHPExcel_Cell::stringFromColumnIndex($columnReference-1).$rowReference;
 
-                                        $value = substr_replace($value, $A1CellReference, $cellReference[0][1], strlen($cellReference[0][0]));
+                                        $value = substr_replace($value, $A1CellReference, $cellReference[0][1], wfPhpfunc::strlen($cellReference[0][0]));
                                     }
                                 }
                             }
@@ -369,20 +369,20 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                     switch ($rowDatum[0]) {
                         case 'C':
                         case 'X':
-                            $column = substr($rowDatum, 1);
+                            $column = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'R':
                         case 'Y':
-                            $row = substr($rowDatum, 1);
+                            $row = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'P':
                             $formatStyle = $rowDatum;
                             break;
                         case 'W':
-                            list($startCol, $endCol, $columnWidth) = explode(' ', substr($rowDatum, 1));
+                            list($startCol, $endCol, $columnWidth) = explode(' ', wfPhpfunc::substr($rowDatum, 1));
                             break;
                         case 'S':
-                            $styleSettings = substr($rowDatum, 1);
+                            $styleSettings = wfPhpfunc::substr($rowDatum, 1);
                             for ($i=0; $i<strlen($styleSettings); ++$i) {
                                 switch ($styleSettings{$i}) {
                                     case 'I':
@@ -436,11 +436,11 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
                     switch ($rowDatum[0]) {
                         case 'C':
                         case 'X':
-                            $column = substr($rowDatum, 1);
+                            $column = wfPhpfunc::substr($rowDatum, 1);
                             break;
                         case 'R':
                         case 'Y':
-                            $row = substr($rowDatum, 1);
+                            $row = wfPhpfunc::substr($rowDatum, 1);
                             break;
                     }
                 }

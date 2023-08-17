@@ -576,7 +576,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x02),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E),
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         // GKPIDDSI_VERSION :Version of the application that wrote the property storage
@@ -626,7 +626,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
         $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x0D),
                                'offset' => array('pack' => 'V'),
                                'type'     => array('pack' => 'V', 'data' => 0x101E),
-                               'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                               'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
         $dataSection_NumProps++;
 
         // GKPIDDSI_HEADINGPAIR
@@ -660,7 +660,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
         $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x0C),
                                'offset' => array('pack' => 'V'),
                                'type'     => array('pack' => 'V', 'data' => 0x100C),
-                               'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                               'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
         $dataSection_NumProps++;
 
         //         4     Section Length
@@ -701,7 +701,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
                 $dataSection_Content .= pack('V', $dataProp['data']['length']);
                 $dataSection_Content .= $dataProp['data']['data'];
 
-                $dataSection_Content_Offset += 4 + 4 + strlen($dataProp['data']['data']);
+                $dataSection_Content_Offset += 4 + 4 + wfPhpfunc::strlen($dataProp['data']['data']);
             } elseif ($dataProp['type']['data'] == 0x40) { // Filetime (64-bit value representing the number of 100-nanosecond intervals since January 1, 1601)
                 $dataSection_Content .= $dataProp['data']['data'];
 
@@ -772,7 +772,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x02),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Subject
@@ -781,7 +781,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x03),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Author (Creator)
@@ -790,7 +790,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x04),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Keywords
@@ -799,7 +799,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x05),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Comments (Description)
@@ -808,7 +808,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x06),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Last Saved By (LastModifiedBy)
@@ -817,7 +817,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
             $dataSection[] = array('summary'=> array('pack' => 'V', 'data' => 0x08),
                                    'offset' => array('pack' => 'V'),
                                    'type'     => array('pack' => 'V', 'data' => 0x1E), // null-terminated string prepended by dword string length
-                                   'data'    => array('data' => $dataProp, 'length' => strlen($dataProp)));
+                                   'data'    => array('data' => $dataProp, 'length' => wfPhpfunc::strlen($dataProp)));
             $dataSection_NumProps++;
         }
         //    Created Date/Time
@@ -877,7 +877,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
                 $dataSection_Content .= pack('V', $dataProp['data']['length']);
                 $dataSection_Content .= $dataProp['data']['data'];
 
-                $dataSection_Content_Offset += 4 + 4 + strlen($dataProp['data']['data']);
+                $dataSection_Content_Offset += 4 + 4 + wfPhpfunc::strlen($dataProp['data']['data']);
             } elseif ($dataProp['type']['data'] == 0x40) { // Filetime (64-bit value representing the number of 100-nanosecond intervals since January 1, 1601)
                 $dataSection_Content .= $dataProp['data']['data'];
 

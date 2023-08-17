@@ -240,8 +240,8 @@ class PHPExcel_Shared_Date
         }
 
         //    Calculate the Julian Date, then subtract the Excel base date (JD 2415020 = 31-Dec-1899 Giving Excel Date of 0)
-        $century = substr($year, 0, 2);
-        $decade = substr($year, 2, 2);
+        $century = wfPhpfunc::substr($year, 0, 2);
+        $decade = wfPhpfunc::substr($year, 2, 2);
         $excelDate = floor((146097 * $century) / 4) + floor((1461 * $decade) / 4) + floor((153 * $month + 2) / 5) + $day + 1721119 - $myexcelBaseDate + $excel1900isLeapYear;
 
         $excelTime = (($hours * 3600) + ($minutes * 60) + $seconds) / 86400;
@@ -326,7 +326,7 @@ class PHPExcel_Shared_Date
         }
 
         //    Typically number, currency or accounting (or occasionally fraction) formats
-        if ((substr($pFormatCode, 0, 1) == '_') || (substr($pFormatCode, 0, 2) == '0 ')) {
+        if ((wfPhpfunc::substr($pFormatCode, 0, 1) == '_') || (wfPhpfunc::substr($pFormatCode, 0, 2) == '0 ')) {
             return false;
         }
         // Try checking for any of the date formatting characters that don't appear within square braces
@@ -360,7 +360,7 @@ class PHPExcel_Shared_Date
      */
     public static function stringToExcel($dateValue = '')
     {
-        if (strlen($dateValue) < 2) {
+        if (wfPhpfunc::strlen($dateValue) < 2) {
             return false;
         }
         if (!preg_match('/^(\d{1,4}[ \.\/\-][A-Z]{3,9}([ \.\/\-]\d{1,4})?|[A-Z]{3,9}[ \.\/\-]\d{1,4}([ \.\/\-]\d{1,4})?|\d{1,4}[ \.\/\-]\d{1,4}([ \.\/\-]\d{1,4})?)( \d{1,2}:\d{1,2}(:\d{1,2})?)?$/iu', $dateValue)) {
@@ -409,7 +409,7 @@ class PHPExcel_Shared_Date
      */
     public static function dayStringToNumber($day)
     {
-        $strippedDayValue = (str_replace(self::$numberSuffixes, '', $day));
+        $strippedDayValue = (wfPhpfunc::str_replace(self::$numberSuffixes, '', $day));
         if (is_numeric($strippedDayValue)) {
             return (integer) $strippedDayValue;
         }

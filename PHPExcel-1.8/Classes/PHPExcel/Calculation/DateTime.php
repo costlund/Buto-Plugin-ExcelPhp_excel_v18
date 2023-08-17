@@ -496,7 +496,7 @@ class PHPExcel_Calculation_DateTime
         //    Strip any ordinals because they're allowed in Excel (English only)
         $dateValue = preg_replace('/(\d)(st|nd|rd|th)([ -\/])/Ui', '$1$3', $dateValue);
         //    Convert separators (/ . or space) to hyphens (should also handle dot used for ordinals in some countries, e.g. Denmark, Germany)
-        $dateValue    = str_replace(array('/', '.', '-', '  '), array(' ', ' ', ' ', ' '), $dateValue);
+        $dateValue    = wfPhpfunc::str_replace(array('/', '.', '-', '  '), array(' ', ' ', ' ', ' '), $dateValue);
 
         $yearFound = false;
         $t1 = explode(' ', $dateValue);
@@ -614,7 +614,7 @@ class PHPExcel_Calculation_DateTime
     public static function TIMEVALUE($timeValue)
     {
         $timeValue = trim(PHPExcel_Calculation_Functions::flattenSingleValue($timeValue), '"');
-        $timeValue = str_replace(array('/', '.'), array('-', '-'), $timeValue);
+        $timeValue = wfPhpfunc::str_replace(array('/', '.'), array('-', '-'), $timeValue);
 
         $PHPDateArray = date_parse($timeValue);
         if (($PHPDateArray !== false) && ($PHPDateArray['error_count'] == 0)) {
@@ -1353,7 +1353,7 @@ class PHPExcel_Calculation_DateTime
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
-                if (strlen($testVal) < strlen($timeValue)) {
+                if (wfPhpfunc::strlen($testVal) < wfPhpfunc::strlen($timeValue)) {
                     return PHPExcel_Calculation_Functions::VALUE();
                 }
             }
@@ -1394,7 +1394,7 @@ class PHPExcel_Calculation_DateTime
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
-                if (strlen($testVal) < strlen($timeValue)) {
+                if (wfPhpfunc::strlen($testVal) < wfPhpfunc::strlen($timeValue)) {
                     return PHPExcel_Calculation_Functions::VALUE();
                 }
             }
@@ -1435,7 +1435,7 @@ class PHPExcel_Calculation_DateTime
         if (!is_numeric($timeValue)) {
             if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC) {
                 $testVal = strtok($timeValue, '/-: ');
-                if (strlen($testVal) < strlen($timeValue)) {
+                if (wfPhpfunc::strlen($testVal) < wfPhpfunc::strlen($timeValue)) {
                     return PHPExcel_Calculation_Functions::VALUE();
                 }
             }

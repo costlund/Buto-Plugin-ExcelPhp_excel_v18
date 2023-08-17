@@ -211,7 +211,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
         if ($this->isSupervisor) {
             return $this->getSharedComponent()->getRGB();
         }
-        return substr($this->argb, 2);
+        return wfPhpfunc::substr($this->argb, 2);
     }
 
     /**
@@ -246,7 +246,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      */
     private static function getColourComponent($RGB, $offset, $hex = true)
     {
-        $colour = substr($RGB, $offset, 2);
+        $colour = wfPhpfunc::substr($RGB, $offset, 2);
         if (!$hex) {
             $colour = hexdec($colour);
         }
@@ -263,7 +263,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      */
     public static function getRed($RGB, $hex = true)
     {
-        return self::getColourComponent($RGB, strlen($RGB) - 6, $hex);
+        return self::getColourComponent($RGB, wfPhpfunc::strlen($RGB) - 6, $hex);
     }
 
     /**
@@ -276,7 +276,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      */
     public static function getGreen($RGB, $hex = true)
     {
-        return self::getColourComponent($RGB, strlen($RGB) - 4, $hex);
+        return self::getColourComponent($RGB, wfPhpfunc::strlen($RGB) - 4, $hex);
     }
 
     /**
@@ -289,7 +289,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      */
     public static function getBlue($RGB, $hex = true)
     {
-        return self::getColourComponent($RGB, strlen($RGB) - 2, $hex);
+        return self::getColourComponent($RGB, wfPhpfunc::strlen($RGB) - 2, $hex);
     }
 
     /**
@@ -301,7 +301,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      */
     public static function changeBrightness($hex, $adjustPercentage)
     {
-        $rgba = (strlen($hex) == 8);
+        $rgba = (wfPhpfunc::strlen($hex) == 8);
 
         $red = self::getRed($hex, false);
         $green = self::getGreen($hex, false);

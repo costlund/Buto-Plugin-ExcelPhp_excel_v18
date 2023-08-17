@@ -345,7 +345,7 @@ class PHPExcel_Shared_String
      */
     public static function ControlCharacterOOXML2PHP($value = '')
     {
-        return str_replace(array_keys(self::$controlCharacters), array_values(self::$controlCharacters), $value);
+        return wfPhpfunc::str_replace(array_keys(self::$controlCharacters), array_values(self::$controlCharacters), $value);
     }
 
     /**
@@ -364,7 +364,7 @@ class PHPExcel_Shared_String
      */
     public static function ControlCharacterPHP2OOXML($value = '')
     {
-        return str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
+        return wfPhpfunc::str_replace(array_values(self::$controlCharacters), array_keys(self::$controlCharacters), $value);
     }
 
     /**
@@ -410,7 +410,7 @@ class PHPExcel_Shared_String
     public static function FormatNumber($value)
     {
         if (is_float($value)) {
-            return str_replace(',', '.', $value);
+            return wfPhpfunc::str_replace(',', '.', $value);
         }
         return (string) $value;
     }
@@ -520,7 +520,7 @@ class PHPExcel_Shared_String
      */
     public static function utf16_decode($str, $bom_be = true)
     {
-        if (strlen($str) < 2) {
+        if (wfPhpfunc::strlen($str) < 2) {
             return $str;
         }
 
@@ -530,12 +530,12 @@ class PHPExcel_Shared_String
         $c0 = ord($str[0]);
         $c1 = ord($str[1]);
         if ($c0 == 0xfe && $c1 == 0xff) {
-            $str = substr($str, 2);
+            $str = wfPhpfunc::substr($str, 2);
         } elseif ($c0 == 0xff && $c1 == 0xfe) {
-            $str = substr($str, 2);
+            $str = wfPhpfunc::substr($str, 2);
             $bom_be = false;
         }
-        $len = strlen($str);
+        $len = wfPhpfunc::strlen($str);
         $newstr = '';
         for ($i=0; $i<$len; $i+=2) {
             if ($bom_be) {
@@ -568,7 +568,7 @@ class PHPExcel_Shared_String
         }
 
         // else strlen
-        return strlen($value);
+        return wfPhpfunc::strlen($value);
     }
 
     /**
@@ -590,7 +590,7 @@ class PHPExcel_Shared_String
         }
 
         // else substr
-        return substr($pValue, $pStart, $pLength);
+        return wfPhpfunc::substr($pValue, $pStart, $pLength);
     }
 
     /**
@@ -799,7 +799,7 @@ class PHPExcel_Shared_String
         }
 
         foreach (self::$SYLKCharacters as $k => $v) {
-            $pValue = str_replace($k, $v, $pValue);
+            $pValue = wfPhpfunc::str_replace($k, $v, $pValue);
         }
 
         return $pValue;
@@ -818,6 +818,6 @@ class PHPExcel_Shared_String
             return $value;
         }
         $v = floatval($value);
-        return (is_numeric(substr($value, 0, strlen($v)))) ? $v : $value;
+        return (is_numeric(wfPhpfunc::substr($value, 0, wfPhpfunc::strlen($v)))) ? $v : $value;
     }
 }

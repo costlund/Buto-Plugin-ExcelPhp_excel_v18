@@ -445,7 +445,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
                                         $borderPosition = strtolower($borderStyleValue);
                                         break;
                                     case 'Color':
-                                        $borderColour = substr($borderStyleValue, 1);
+                                        $borderColour = wfPhpfunc::substr($borderStyleValue, 1);
                                         $thisBorder['color']['rgb'] = $borderColour;
                                         break;
                                 }
@@ -469,7 +469,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
                                     $this->styles[$styleID]['font']['size'] = $styleAttributeValue;
                                     break;
                                 case 'Color':
-                                    $this->styles[$styleID]['font']['color']['rgb'] = substr($styleAttributeValue, 1);
+                                    $this->styles[$styleID]['font']['color']['rgb'] = wfPhpfunc::substr($styleAttributeValue, 1);
                                     break;
                                 case 'Bold':
                                     $this->styles[$styleID]['font']['bold'] = true;
@@ -490,7 +490,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //                                echo $styleAttributeKey.' = '.$styleAttributeValue.'<br />';
                             switch ($styleAttributeKey) {
                                 case 'Color':
-                                    $this->styles[$styleID]['fill']['color']['rgb'] = substr($styleAttributeValue, 1);
+                                    $this->styles[$styleID]['fill']['color']['rgb'] = wfPhpfunc::substr($styleAttributeValue, 1);
                                     break;
                             }
                         }
@@ -498,7 +498,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
                     case 'NumberFormat':
                         foreach ($styleAttributes as $styleAttributeKey => $styleAttributeValue) {
 //                                echo $styleAttributeKey.' = '.$styleAttributeValue.'<br />';
-                            $styleAttributeValue = str_replace($fromFormats, $toFormats, $styleAttributeValue);
+                            $styleAttributeValue = wfPhpfunc::str_replace($fromFormats, $toFormats, $styleAttributeValue);
                             switch ($styleAttributeValue) {
                                 case 'Short Date':
                                     $styleAttributeValue = 'dd/mm/yyyy';
@@ -656,15 +656,15 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //                                echo 'FORMULA<br />';
                                 $type = PHPExcel_Cell_DataType::TYPE_FORMULA;
                                 $columnNumber = PHPExcel_Cell::columnIndexFromString($columnID);
-                                if (substr($cellDataFormula, 0, 3) == 'of:') {
-                                    $cellDataFormula = substr($cellDataFormula, 3);
+                                if (wfPhpfunc::substr($cellDataFormula, 0, 3) == 'of:') {
+                                    $cellDataFormula = wfPhpfunc::substr($cellDataFormula, 3);
 //                                    echo 'Before: ', $cellDataFormula,'<br />';
                                     $temp = explode('"', $cellDataFormula);
                                     $key = false;
                                     foreach ($temp as &$value) {
                                         //    Only replace in alternate array entries (i.e. non-quoted blocks)
                                         if ($key = !$key) {
-                                            $value = str_replace(array('[.', '.', ']'), '', $value);
+                                            $value = wfPhpfunc::str_replace(array('[.', '.', ']'), '', $value);
                                         }
                                     }
                                 } else {
@@ -702,7 +702,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
                                                     $columnReference = $columnNumber + trim($columnReference, '[]');
                                                 }
                                                 $A1CellReference = PHPExcel_Cell::stringFromColumnIndex($columnReference-1).$rowReference;
-                                                $value = substr_replace($value, $A1CellReference, $cellReference[0][1], strlen($cellReference[0][0]));
+                                                $value = substr_replace($value, $A1CellReference, $cellReference[0][1], wfPhpfunc::strlen($cellReference[0][0]));
                                             }
                                         }
                                     }
@@ -732,7 +732,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //                                echo 'Author: ', $author,'<br />';
                             }
                             $node = $cell->Comment->Data->asXML();
-//                            $annotation = str_replace('html:','',substr($node,49,-10));
+//                            $annotation = wfPhpfunc::str_replace('html:','',wfPhpfunc::substr($node,49,-10));
 //                            echo $annotation,'<br />';
                             $annotation = strip_tags($node);
 //                            echo 'Annotation: ', $annotation,'<br />';

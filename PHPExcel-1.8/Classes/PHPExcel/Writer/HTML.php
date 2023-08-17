@@ -617,16 +617,16 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
                     $filename = $drawing->getPath();
 
                     // Strip off eventual '.'
-                    if (substr($filename, 0, 1) == '.') {
-                        $filename = substr($filename, 1);
+                    if (wfPhpfunc::substr($filename, 0, 1) == '.') {
+                        $filename = wfPhpfunc::substr($filename, 1);
                     }
 
                     // Prepend images root
                     $filename = $this->getImagesRoot() . $filename;
 
                     // Strip off eventual '.'
-                    if (substr($filename, 0, 1) == '.' && substr($filename, 0, 2) != './') {
-                        $filename = substr($filename, 1);
+                    if (wfPhpfunc::substr($filename, 0, 1) == '.' && wfPhpfunc::substr($filename, 0, 2) != './') {
+                        $filename = wfPhpfunc::substr($filename, 1);
                     }
 
                     // Convert UTF8 data to PCDATA
@@ -1480,8 +1480,8 @@ class PHPExcel_Writer_HTML extends PHPExcel_Writer_Abstract implements PHPExcel_
 
         $color_regex = '/^\\[[a-zA-Z]+\\]/';
         if (preg_match($color_regex, $pFormat, $matches)) {
-            $color = str_replace('[', '', $matches[0]);
-            $color = str_replace(']', '', $color);
+            $color = wfPhpfunc::str_replace('[', '', $matches[0]);
+            $color = wfPhpfunc::str_replace(']', '', $color);
             $color = strtolower($color);
         }
 

@@ -64,8 +64,8 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
     public function getIndexedFilename()
     {
         $fileName = $this->getFilename();
-        $fileName = str_replace(' ', '_', $fileName);
-        return str_replace('.' . $this->getExtension(), '', $fileName) . $this->getImageIndex() . '.' . $this->getExtension();
+        $fileName = wfPhpfunc::str_replace(' ', '_', $fileName);
+        return wfPhpfunc::str_replace('.' . $this->getExtension(), '', $fileName) . $this->getImageIndex() . '.' . $this->getExtension();
     }
 
     /**

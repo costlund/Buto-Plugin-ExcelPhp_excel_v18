@@ -327,7 +327,7 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 
             foreach ($pValues as $element) {
                 // Escape enclosures
-                $element = str_replace($this->enclosure, $this->enclosure . $this->enclosure, $element);
+                $element = wfPhpfunc::str_replace($this->enclosure, $this->enclosure . $this->enclosure, $element);
 
                 // Add delimiter
                 if ($writeDelimiter) {

@@ -309,7 +309,7 @@ class PHPExcel_Chart_DataSeriesValues
                     list(, $cellRange) = $cellRange;
                 }
 
-                $dimensions = PHPExcel_Cell::rangeDimension(str_replace('$', '', $cellRange));
+                $dimensions = PHPExcel_Cell::rangeDimension(wfPhpfunc::str_replace('$', '', $cellRange));
                 if (($dimensions[0] == 1) || ($dimensions[1] == 1)) {
                     $this->dataValues = PHPExcel_Calculation_Functions::flattenArray($newDataValues);
                 } else {

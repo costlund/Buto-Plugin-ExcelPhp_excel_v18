@@ -331,7 +331,7 @@ class PHPExcel_Calculation_Functions
             list(, $operator, $operand) = $matches;
 
             if (!is_numeric($operand)) {
-                $operand = str_replace('"', '""', $operand);
+                $operand = wfPhpfunc::str_replace('"', '""', $operand);
                 $operand = PHPExcel_Calculation::wrapResult(strtoupper($operand));
             }
 
@@ -559,7 +559,7 @@ class PHPExcel_Calculation_Functions
                 return (integer) $value;
             case 'string':
                 //    Errors
-                if ((strlen($value) > 0) && ($value[0] == '#')) {
+                if ((wfPhpfunc::strlen($value) > 0) && ($value[0] == '#')) {
                     return $value;
                 }
                 break;
@@ -609,7 +609,7 @@ class PHPExcel_Calculation_Functions
                 return 64;
         } elseif (is_string($value)) {
             //    Errors
-            if ((strlen($value) > 0) && ($value[0] == '#')) {
+            if ((wfPhpfunc::strlen($value) > 0) && ($value[0] == '#')) {
                 return 16;
             }
             return 2;

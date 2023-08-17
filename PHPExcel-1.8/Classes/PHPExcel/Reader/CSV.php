@@ -168,8 +168,8 @@ class PHPExcel_Reader_CSV extends PHPExcel_Reader_Abstract implements PHPExcel_R
             return;
         }
 
-        if ((strlen(trim($line, "\r\n")) == 5) && (stripos($line, 'sep=') === 0)) {
-            $this->delimiter = substr($line, 4, 1);
+        if ((wfPhpfunc::strlen(trim($line, "\r\n")) == 5) && (stripos($line, 'sep=') === 0)) {
+            $this->delimiter = wfPhpfunc::substr($line, 4, 1);
             return;
         }
         return $this->skipBOM();
@@ -282,7 +282,7 @@ class PHPExcel_Reader_CSV extends PHPExcel_Reader_Abstract implements PHPExcel_R
             foreach ($rowData as $rowDatum) {
                 if ($rowDatum != '' && $this->readFilter->readCell($columnLetter, $currentRow)) {
                     // Unescape enclosures
-                    $rowDatum = str_replace($escapeEnclosures, $this->enclosure, $rowDatum);
+                    $rowDatum = wfPhpfunc::str_replace($escapeEnclosures, $this->enclosure, $rowDatum);
 
                     // Convert encoding if necessary
                     if ($this->inputEncoding !== 'UTF-8') {

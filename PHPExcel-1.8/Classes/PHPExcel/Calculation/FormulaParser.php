@@ -158,7 +158,7 @@ class PHPExcel_Calculation_FormulaParser
         // they can only exist if valid; stack overflows/underflows sunk as nulls without exceptions.
 
         // Check if the formula has a valid starting =
-        $formulaLength = strlen($this->formula);
+        $formulaLength = wfPhpfunc::strlen($this->formula);
         if ($formulaLength < 2 || $this->formula[0] != '=') {
             return;
         }
@@ -242,7 +242,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // scientific notation check
             if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_SN, $this->formula{$index}) !== false) {
-                if (strlen($value) > 1) {
+                if (wfPhpfunc::strlen($value) > 1) {
                     if (preg_match("/^[1-9][1](\.[0-9]+)?E[1]$/", $this->formula{$index}) != 0) {
                         $value .= $this->formula{$index};
                         ++$index;
@@ -255,7 +255,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // establish state-dependent character evaluations
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::QUOTE_DOUBLE) {
-                if (strlen($value > 0)) {
+                if (wfPhpfunc::strlen($value > 0)) {
                     // unexpected
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_UNKNOWN);
                     $value = "";
@@ -266,7 +266,7 @@ class PHPExcel_Calculation_FormulaParser
             }
 
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::QUOTE_SINGLE) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     // unexpected
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_UNKNOWN);
                     $value = "";
@@ -284,7 +284,7 @@ class PHPExcel_Calculation_FormulaParser
             }
 
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::ERROR_START) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     // unexpected
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_UNKNOWN);
                     $value = "";
@@ -297,7 +297,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // mark start and end of arrays and array rows
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::BRACE_OPEN) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     // unexpected
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_UNKNOWN);
                     $value = "";
@@ -316,7 +316,7 @@ class PHPExcel_Calculation_FormulaParser
             }
 
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::SEMICOLON) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -338,7 +338,7 @@ class PHPExcel_Calculation_FormulaParser
             }
 
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::BRACE_CLOSE) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -359,7 +359,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // trim white-space
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::WHITESPACE) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -373,12 +373,12 @@ class PHPExcel_Calculation_FormulaParser
 
             // multi-character comparators
             if (($index + 2) <= $formulaLength) {
-                if (in_array(substr($this->formula, $index, 2), $COMPARATORS_MULTI)) {
-                    if (strlen($value) > 0) {
+                if (in_array(wfPhpfunc::substr($this->formula, $index, 2), $COMPARATORS_MULTI)) {
+                    if (wfPhpfunc::strlen($value) > 0) {
                         $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                         $value = "";
                     }
-                    $tokens1[] = new PHPExcel_Calculation_FormulaToken(substr($this->formula, $index, 2), PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERATORINFIX, PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_LOGICAL);
+                    $tokens1[] = new PHPExcel_Calculation_FormulaToken(wfPhpfunc::substr($this->formula, $index, 2), PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERATORINFIX, PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_LOGICAL);
                     $index += 2;
                     continue;
                 }
@@ -386,7 +386,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // standard infix operators
             if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_INFIX, $this->formula{$index}) !== false) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] =new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -397,7 +397,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // standard postfix operators (only one)
             if (strpos(PHPExcel_Calculation_FormulaParser::OPERATORS_POSTFIX, $this->formula{$index}) !== false) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -408,7 +408,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // start subexpression or function
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::PAREN_OPEN) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tmp = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_FUNCTION, PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_START);
                     $tokens1[] = $tmp;
                     $stack[] = clone $tmp;
@@ -424,7 +424,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // function, subexpression, or array parameters, or operand unions
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::COMMA) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -445,7 +445,7 @@ class PHPExcel_Calculation_FormulaParser
 
             // stop subexpression
             if ($this->formula{$index} == PHPExcel_Calculation_FormulaParser::PAREN_CLOSE) {
-                if (strlen($value) > 0) {
+                if (wfPhpfunc::strlen($value) > 0) {
                     $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
                     $value = "";
                 }
@@ -465,7 +465,7 @@ class PHPExcel_Calculation_FormulaParser
         }
 
         // dump remaining accumulation
-        if (strlen($value) > 0) {
+        if (wfPhpfunc::strlen($value) > 0) {
             $tokens1[] = new PHPExcel_Calculation_FormulaToken($value, PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERAND);
         }
 
@@ -580,7 +580,7 @@ class PHPExcel_Calculation_FormulaParser
 
             if ($token->getTokenType() == PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_OPERATORINFIX &&
                 $token->getTokenSubType() == PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_NOTHING) {
-                if (strpos("<>=", substr($token->getValue(), 0, 1)) !== false) {
+                if (strpos("<>=", wfPhpfunc::substr($token->getValue(), 0, 1)) !== false) {
                     $token->setTokenSubType(PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_LOGICAL);
                 } elseif ($token->getValue() == "&") {
                     $token->setTokenSubType(PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_CONCATENATION);
@@ -609,9 +609,9 @@ class PHPExcel_Calculation_FormulaParser
             }
 
             if ($token->getTokenType() == PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_FUNCTION) {
-                if (strlen($token->getValue() > 0)) {
-                    if (substr($token->getValue(), 0, 1) == "@") {
-                        $token->setValue(substr($token->getValue(), 1));
+                if (wfPhpfunc::strlen($token->getValue() > 0)) {
+                    if (wfPhpfunc::substr($token->getValue(), 0, 1) == "@") {
+                        $token->setValue(wfPhpfunc::substr($token->getValue(), 1));
                     }
                 }
             }

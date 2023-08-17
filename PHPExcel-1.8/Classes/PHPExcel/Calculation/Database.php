@@ -127,7 +127,7 @@ class PHPExcel_Calculation_Database
                 if (isset($dataValues[$k])) {
                     $dataValue = $dataValues[$k];
                     $dataValue = (is_string($dataValue)) ? PHPExcel_Calculation::wrapResult(strtoupper($dataValue)) : $dataValue;
-                    $testConditionList = str_replace('[:' . $criteriaName . ']', $dataValue, $testConditionList);
+                    $testConditionList = wfPhpfunc::str_replace('[:' . $criteriaName . ']', $dataValue, $testConditionList);
                 }
             }
             //    evaluate the criteria against the row data

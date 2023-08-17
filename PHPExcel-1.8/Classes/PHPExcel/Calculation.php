@@ -2082,7 +2082,7 @@ class PHPExcel_Calculation
     {
         $localeFileDirectory = PHPEXCEL_ROOT.'PHPExcel/locale/';
         foreach (glob($localeFileDirectory.'/*', GLOB_ONLYDIR) as $filename) {
-            $filename = substr($filename, strlen($localeFileDirectory)+1);
+            $filename = wfPhpfunc::substr($filename, wfPhpfunc::strlen($localeFileDirectory)+1);
             if ($filename != 'en') {
                 self::$validLocaleLanguages[] = $filename;
             }
@@ -2548,8 +2548,8 @@ class PHPExcel_Calculation
     public static function unwrapResult($value)
     {
         if (is_string($value)) {
-            if ((isset($value[0])) && ($value[0] == '"') && (substr($value, -1) == '"')) {
-                return substr($value, 1, -1);
+            if ((isset($value[0])) && ($value[0] == '"') && (wfPhpfunc::substr($value, -1) == '"')) {
+                return wfPhpfunc::substr($value, 1, -1);
             }
         //    Convert numeric errors to NaN error
         } elseif ((is_float($value)) && ((is_nan($value)) || (is_infinite($value)))) {
@@ -2672,7 +2672,7 @@ class PHPExcel_Calculation
         if ((!isset($formula[0])) || ($formula[0] != '=')) {
             return array();
         }
-        $formula = ltrim(substr($formula, 1));
+        $formula = ltrim(wfPhpfunc::substr($formula, 1));
         if (!isset($formula[0])) {
             return array();
         }
@@ -2764,7 +2764,7 @@ class PHPExcel_Calculation
         if ($formula[0] != '=') {
             return self::wrapResult($formula);
         }
-        $formula = ltrim(substr($formula, 1));
+        $formula = ltrim(wfPhpfunc::substr($formula, 1));
         if (!isset($formula[0])) {
             return self::wrapResult($formula);
         }
@@ -3062,7 +3062,7 @@ class PHPExcel_Calculation
                     if ($i = !$i) {
                         $openCount += substr_count($value, '{');
                         $closeCount += substr_count($value, '}');
-                        $value = str_replace($matrixReplaceFrom, $matrixReplaceTo, $value);
+                        $value = wfPhpfunc::str_replace($matrixReplaceFrom, $matrixReplaceTo, $value);
                     }
                 }
                 unset($value);
@@ -3072,7 +3072,7 @@ class PHPExcel_Calculation
                 //    If there's no quoted strings, then we do a simple count/replace
                 $openCount = substr_count($formula, '{');
                 $closeCount = substr_count($formula, '}');
-                $formula = str_replace($matrixReplaceFrom, $matrixReplaceTo, $formula);
+                $formula = wfPhpfunc::str_replace($matrixReplaceFrom, $matrixReplaceTo, $formula);
             }
             //    Trap for mismatched braces and trigger an appropriate error
             if ($openCount < $closeCount) {
@@ -3165,13 +3165,13 @@ class PHPExcel_Calculation
 //echo 'Assessing Expression '.substr($formula, $index), PHP_EOL;
             $opCharacter = $formula[$index];    //    Get the first character of the value at the current index position
 //echo 'Initial character of expression block is '.$opCharacter, PHP_EOL;
-            if ((isset(self::$comparisonOperators[$opCharacter])) && (strlen($formula) > $index) && (isset(self::$comparisonOperators[$formula[$index+1]]))) {
+            if ((isset(self::$comparisonOperators[$opCharacter])) && (wfPhpfunc::strlen($formula) > $index) && (isset(self::$comparisonOperators[$formula[$index+1]]))) {
                 $opCharacter .= $formula[++$index];
 //echo 'Initial character of expression block is comparison operator '.$opCharacter.PHP_EOL;
             }
 
             //    Find out if we're currently at the beginning of a number, variable, cell reference, function, parenthesis or operand
-            $isOperandOrFunction = preg_match($regexpMatchString, substr($formula, $index), $match);
+            $isOperandOrFunction = preg_match($regexpMatchString, wfPhpfunc::substr($formula, $index), $match);
 //echo '$isOperandOrFunction is '.(($isOperandOrFunction) ? 'True' : 'False').PHP_EOL;
 //var_dump($match);
 
@@ -3319,7 +3319,7 @@ class PHPExcel_Calculation
                 $expectingOperator = true;
                 $expectingOperand = false;
                 $val = $match[1];
-                $length = strlen($val);
+                $length = wfPhpfunc::strlen($val);
 //                echo 'Element with value '.$val.' is an Operand, Variable, Constant, String, Number, Cell Reference or Function<br />';
 
                 if (preg_match('/^'.self::CALCULATION_REGEXP_FUNCTION.'$/i', $val, $matches)) {
@@ -3327,7 +3327,7 @@ class PHPExcel_Calculation
 //                    echo 'Element '.$val.' is a Function<br />';
                     if (isset(self::$PHPExcelFunctions[strtoupper($matches[1])]) || isset(self::$controlFunctions[strtoupper($matches[1])])) {    // it's a function
                         $stack->push('Function', strtoupper($val));
-                        $ax = preg_match('/^\s*(\s*\))/ui', substr($formula, $index+$length), $amatch);
+                        $ax = preg_match('/^\s*(\s*\))/ui', wfPhpfunc::substr($formula, $index+$length), $amatch);
                         if ($ax) {
                             $stack->push('Operand Count for Function '.strtoupper($val).')', 0);
                             $expectingOperator = true;
@@ -3390,7 +3390,7 @@ class PHPExcel_Calculation
                             $output[count($output)-1]['value'] = $rangeWS1.'A'.$startRowColRef;
                             $val = $rangeWS2.$endRowColRef.$val;
                         } elseif ((ctype_alpha($startRowColRef)) && (ctype_alpha($val)) &&
-                            (strlen($startRowColRef) <= 3) && (strlen($val) <= 3)) {
+                            (wfPhpfunc::strlen($startRowColRef) <= 3) && (wfPhpfunc::strlen($val) <= 3)) {
                             //    Column range
                             $endRowColRef = ($pCellParent !== null) ? $pCellParent->getHighestRow() : 1048576;        //    Max 1,048,576 rows for Excel2007
                             $output[count($output)-1]['value'] = $rangeWS1.strtoupper($startRowColRef).'1';
@@ -3402,7 +3402,7 @@ class PHPExcel_Calculation
                     if ($opCharacter == '"') {
 //                        echo 'Element is a String<br />';
                         //    UnEscape any quotes within the string
-                        $val = self::wrapResult(str_replace('""', '"', self::unwrapResult($val)));
+                        $val = self::wrapResult(wfPhpfunc::str_replace('""', '"', self::unwrapResult($val)));
                     } elseif (is_numeric($val)) {
 //                        echo 'Element is a Number<br />';
                         if ((strpos($val, '.') !== false) || (stripos($val, 'e') !== false) || ($val > PHP_INT_MAX) || ($val < -PHP_INT_MAX)) {
@@ -3444,7 +3444,7 @@ class PHPExcel_Calculation
                 return $this->raiseFormulaError("Formula Error: An unexpected error occured");
             }
             //    Test for end of formula string
-            if ($index == strlen($formula)) {
+            if ($index == wfPhpfunc::strlen($formula)) {
                 //    Did we end with an operator?.
                 //    Only valid for the % unary operator
                 if ((isset(self::$operators[$opCharacter])) && ($opCharacter != '%')) {
@@ -3464,7 +3464,7 @@ class PHPExcel_Calculation
                 //    If we're expecting an operator, but only have a space between the previous and next operands (and both are
                 //        Cell References) then we have an INTERSECTION operator
 //                echo 'Possible Intersect Operator<br />';
-                if (($expectingOperator) && (preg_match('/^'.self::CALCULATION_REGEXP_CELLREF.'.*/Ui', substr($formula, $index), $match)) &&
+                if (($expectingOperator) && (preg_match('/^'.self::CALCULATION_REGEXP_CELLREF.'.*/Ui', wfPhpfunc::substr($formula, $index), $match)) &&
                     ($output[count($output)-1]['type'] == 'Cell Reference')) {
 //                    echo 'Element is an Intersect Operator<br />';
                     while ($stack->count() > 0 &&
@@ -4120,8 +4120,8 @@ class PHPExcel_Calculation
             }
         } else {
             if ((PHPExcel_Calculation_Functions::getCompatibilityMode() != PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) &&
-                ((is_string($operand1) && !is_numeric($operand1) && strlen($operand1)>0) ||
-                 (is_string($operand2) && !is_numeric($operand2) && strlen($operand2)>0))) {
+                ((is_string($operand1) && !is_numeric($operand1) && wfPhpfunc::strlen($operand1)>0) ||
+                 (is_string($operand2) && !is_numeric($operand2) && wfPhpfunc::strlen($operand2)>0))) {
                 $result = PHPExcel_Calculation_Functions::VALUE();
             } else {
                 //    If we're dealing with non-matrix operations, execute the necessary operation

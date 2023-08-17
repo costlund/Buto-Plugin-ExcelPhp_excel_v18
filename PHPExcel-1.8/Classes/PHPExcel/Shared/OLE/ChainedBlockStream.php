@@ -72,7 +72,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
         }
 
         // 25 is length of "ole-chainedblockstream://"
-        parse_str(substr($path, 25), $this->params);
+        parse_str(wfPhpfunc::substr($path, 25), $this->params);
         if (!isset($this->params['oleInstanceId'], $this->params['blockId'], $GLOBALS['_OLE_INSTANCES'][$this->params['oleInstanceId']])) {
             if ($options & STREAM_REPORT_ERRORS) {
                 trigger_error('OLE stream not found', E_USER_WARNING);
@@ -102,7 +102,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
             }
         }
         if (isset($this->params['size'])) {
-            $this->data = substr($this->data, 0, $this->params['size']);
+            $this->data = wfPhpfunc::substr($this->data, 0, $this->params['size']);
         }
 
         if ($options & STREAM_USE_PATH) {
@@ -133,7 +133,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
         if ($this->stream_eof()) {
             return false;
         }
-        $s = substr($this->data, $this->pos, $count);
+        $s = wfPhpfunc::substr($this->data, $this->pos, $count);
         $this->pos += $count;
         return $s;
     }
@@ -145,7 +145,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
      */
     public function stream_eof()
     {
-        return $this->pos >= strlen($this->data);
+        return $this->pos >= wfPhpfunc::strlen($this->data);
     }
 
     /**
@@ -173,7 +173,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
         } elseif ($whence == SEEK_CUR && -$offset <= $this->pos) {
             $this->pos += $offset;
         } elseif ($whence == SEEK_END && -$offset <= sizeof($this->data)) {
-            $this->pos = strlen($this->data) + $offset;
+            $this->pos = wfPhpfunc::strlen($this->data) + $offset;
         } else {
             return false;
         }
@@ -188,7 +188,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
     public function stream_stat()
     {
         return array(
-            'size' => strlen($this->data),
+            'size' => wfPhpfunc::strlen($this->data),
             );
     }
 

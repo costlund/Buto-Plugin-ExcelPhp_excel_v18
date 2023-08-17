@@ -69,10 +69,10 @@ class PHPExcel_Shared_File
         // Sick construction, but it seems that
         // file_exists returns strange values when
         // doing the original file_exists on ZIP archives...
-        if (strtolower(substr($pFilename, 0, 3)) == 'zip') {
+        if (strtolower(wfPhpfunc::substr($pFilename, 0, 3)) == 'zip') {
             // Open ZIP file and verify if the file exists
-            $zipFile     = substr($pFilename, 6, strpos($pFilename, '#') - 6);
-            $archiveFile = substr($pFilename, strpos($pFilename, '#') + 1);
+            $zipFile     = wfPhpfunc::substr($pFilename, 6, strpos($pFilename, '#') - 6);
+            $archiveFile = wfPhpfunc::substr($pFilename, strpos($pFilename, '#') + 1);
 
             $zip = new ZipArchive();
             if ($zip->open($zipFile) === true) {

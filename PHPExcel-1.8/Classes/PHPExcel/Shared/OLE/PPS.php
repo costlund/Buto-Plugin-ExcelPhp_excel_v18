@@ -135,7 +135,7 @@ class PHPExcel_Shared_OLE_PPS
         $this->_data      = $data;
         $this->children   = $children;
         if ($data != '') {
-            $this->Size = strlen($data);
+            $this->Size = wfPhpfunc::strlen($data);
         } else {
             $this->Size = 0;
         }
@@ -157,7 +157,7 @@ class PHPExcel_Shared_OLE_PPS
         //    $stats = fstat($this->_PPS_FILE);
         //    return $stats[7];
         //} else {
-            return strlen($this->_data);
+            return wfPhpfunc::strlen($this->_data);
         //}
     }
 
@@ -171,7 +171,7 @@ class PHPExcel_Shared_OLE_PPS
     {
         $ret = str_pad($this->Name, 64, "\x00");
 
-        $ret .= pack("v", strlen($this->Name) + 2)  // 66
+        $ret .= pack("v", wfPhpfunc::strlen($this->Name) + 2)  // 66
               . pack("c", $this->Type)              // 67
               . pack("c", 0x00) //UK                // 68
               . pack("V", $this->PrevPps) //Prev    // 72

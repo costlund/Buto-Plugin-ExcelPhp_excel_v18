@@ -663,8 +663,8 @@ class PHPExcel_Chart
         $this->refresh();
 
         $libraryPath = PHPExcel_Settings::getChartRendererPath();
-        $includePath = str_replace('\\', '/', get_include_path());
-        $rendererPath = str_replace('\\', '/', $libraryPath);
+        $includePath = wfPhpfunc::str_replace('\\', '/', get_include_path());
+        $rendererPath = wfPhpfunc::str_replace('\\', '/', $libraryPath);
         if (strpos($rendererPath, $includePath) === false) {
             set_include_path(get_include_path() . PATH_SEPARATOR . $libraryPath);
         }
